@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -14,16 +15,23 @@ import Trade from "./pages/Trade";
 import Empty from "./pages/Empty";
 
 //import axios from "axios";
+import { initialState } from './dummy/dummy';
+import styled from "styled-components";
 import './App.css';
+const Center = styled.div`
+  height: 92vh;
+  display: flex;
+  flex-direction: row;
+`
 
 function App() {
-
+  const [items, setItems] = useState(initialState.items);
   const navigate = useNavigate();
 
   return (
-    <div className="App">
+    <div>
       <Header />{/*로고 등*/}
-      <Sidebar />{/*차트 넣기*/}
+      
       {/*
       /  : Main page
       /search : NFT조회 페이지 컴포넌트
@@ -32,18 +40,21 @@ function App() {
       /mint : 민트 페이지 컴포넌트
       /trade : 거래 페이지 컴포넌트
       * : emptyPage 컴포넌트*/}
+      <Center>
+      <Sidebar />{/*차트 넣기*/}
       <Routes>
         <Route path="/" element={<Main  />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<Search items={items} />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mint" element={<Mint />} />
         <Route path="/trade" element={<Trade />} />
         <Route path="*" element={<Empty />} />
       </Routes>
-
+      </Center>
       {/*<Footer />깃헙 페이지 홈정보*/}
 
+    
     </div>
   );
 }
