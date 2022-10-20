@@ -4,10 +4,10 @@ const port = 8080;
 const app = express();
 
 const searchRouter = require('./router/search')
+const transferRouter = require('./router/transfer')
+const mintRouter = require('./router/mint')
 
-// 라우터를 만들어주세요 searchRouter 참고
-// app.use('/tranfer', transferRouter);
-// app.use('/mint', mintRouter);
+
 
 app.use( //cors설정
   cors({
@@ -21,13 +21,10 @@ app.use(express.json()); //json으로 이루어진 Request Body를 받는다.
 
 app.use('/search', searchRouter);
 
-app.post('/transfer', (req, res) => {
-  return res.status(200).send("tranfer");
-})
+app.use('/transfer', transferRouter);
 
-app.post('/mint', (req, res) => {
-  return res.status(200).send("mint");
-})
+app.use('/mint', mintRouter);
+
 
 /* advance nft 삭제기능
 *app.delete('/burn', (req, res) => {
