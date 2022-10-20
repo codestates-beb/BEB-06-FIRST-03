@@ -28,17 +28,22 @@ const Center = styled.div`
 function App() {
 
   const [items, setItems] = useState(initialState.items);
+  const [search, setSearch] = useState("노른자 분리기");
   const [ walletAccount, setAccount] = useState('');
 
   const connetWallet = (account) => {
     setAccount(account);
   }
+  /**검색 결과를 search state에 적용 */
+  const inputSearch= (str)=>{
+    setSearch(str);
+  }
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   return (
     <div>
-      <Header connetWallet={connetWallet} />{/*로고 등*/}
+      <Header connetWallet={connetWallet} inputSearch={inputSearch} />{/*로고 등*/}
       
       {/*
       /  : Main page
@@ -52,7 +57,7 @@ function App() {
       <Sidebar />{/*차트 넣기*/}
       <Routes>
         <Route path="/" element={<Main  />} />
-        <Route path="/search" element={<Search items={items} />} />
+        <Route path="/search" element={<Search items={items} search={search}/>} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mint" element={<Mint />} />

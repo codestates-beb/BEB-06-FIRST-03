@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate} from "react-router-dom";
 import Web3 from 'web3';
 
 // TODO - 해더에 로고를 넣고 mint,mypage,지갑 버튼을 넣습니다.
@@ -13,11 +14,22 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import { Link } from 'react-router-dom';
 
-const Header = ({ connetWallet }) => {
+const Header = ({ connetWallet ,inputSearch}) => {
 
   const [ web, setWeb3 ] = useState();
-  const [ search, inputSearch ] = useState("Search");
-  
+  const [ input, setInput ] = useState("");
+  const navigate = useNavigate();
+
+  const handleButtonClick = (event) => {
+    
+    inputSearch(input);
+    navigate("/search");
+  };
+
+  const handleChangeInput = (event) => {
+    setInput(event.target.value);
+  };
+
   useEffect(() => {
     if (typeof Window.ethereum !== "undefind") {
       try {
@@ -51,20 +63,22 @@ const Header = ({ connetWallet }) => {
           >
             <Form className="d-flex">
             <Form.Control
+            value={input}
+            onChange={handleChangeInput}
             type="search"
-            placeholder={search}
+            placeholder="Search"
             className="me-2"
             aria-label="Search"
             />
-          <Button variant="outline-success">Search</Button>
+          <Button variant="outline-success" onClick={handleButtonClick} >Search</Button>
         </Form>
         </Nav>
           <Nav className="" activeKey="/home">
               <Nav.Item>
-                <Nav.Link to='/mint'>Mint</Nav.Link>
+                <Nav.Link onClick={() => navigate("/mint")}>Mint</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-              <Nav.Link to='/mypage'>Mypage</Nav.Link>
+              <Nav.Link onClick={() => navigate("/mypage")}>Mypage</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link 
