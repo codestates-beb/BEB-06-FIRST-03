@@ -18,6 +18,7 @@ import Empty from "./pages/Empty";
 import { initialState } from './dummy/dummy';
 import styled from "styled-components";
 import './App.css';
+
 const Center = styled.div`
   height: 92vh;
   display: flex;
@@ -25,12 +26,19 @@ const Center = styled.div`
 `
 
 function App() {
+
   const [items, setItems] = useState(initialState.items);
+  const [ walletAccount, setAccount] = useState('');
+
+  const connetWallet = (account) => {
+    setAccount(account);
+  }
+
   const navigate = useNavigate();
 
   return (
     <div>
-      <Header />{/*로고 등*/}
+      <Header connetWallet={connetWallet} />{/*로고 등*/}
       
       {/*
       /  : Main page
