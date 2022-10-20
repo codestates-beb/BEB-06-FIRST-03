@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 import Web3 from 'web3';
 
 // TODO - 해더에 로고를 넣고 mint,mypage,지갑 버튼을 넣습니다.
@@ -11,13 +13,14 @@ import Navbar from 'react-bootstrap/Navbar';
 
 //import NavDropdown from 'react-bootstrap/NavDropdown';
 
-import { Link } from 'react-router-dom';
-
-const Header = ({ connetWallet }) => {
+const Header = ({ connetWallet, walletAccount, searchNFT  }) => {
+  
+  const navigate = useNavigate();
 
   const [ web, setWeb3 ] = useState();
-  const [ search, inputSearch ] = useState("Search");
+  const [ inputData, setInputdata ] = useState(walletAccount);
   
+  //최초 랜더링시 지갑과 연결합니다.
   useEffect(() => {
     if (typeof Window.ethereum !== "undefind") {
       try {
@@ -34,9 +37,29 @@ const Header = ({ connetWallet }) => {
       method: "eth_requestAccounts",
     });
     connetWallet(accounts[0]);
-    inputSearch(accounts[0]);
+    setInputdata(accounts[0]);
   }
 
+  const getNFT = async () =>{
+    try {
+      const isAdress = inputData.split('0x');
+      //10진수(tokenId)를 입력시에 query에 tokenId를 담는다
+      const query = (isAdress.length < 2) ? "tokenId" : "address";
+      const url = `http://localhost:8080?${query}=${inputData}`
+      // const result = await axios.get(url);
+      //예상 result = {data: [{tokenId, tokenURI}] }
+      if(query === "tokenId"){
+        searchNFT("[{ inputData, result.data}]"); //tokenId로 검색하면 tokenURI 하나만 온다
+        navigate('/detail');
+      } else {
+        searchNFT("result.data");
+        navigate('/search');
+      }
+    } catch (err) {
+      console.log(err)
+      alert("계정 또는 토큰 아이디가 잘못 되었습니다.")
+    }   
+  }
 
   return (
     <Navbar bg="light" expand="lg">
@@ -52,11 +75,17 @@ const Header = ({ connetWallet }) => {
             <Form className="d-flex">
             <Form.Control
             type="search"
-            placeholder={search}
+            placeholder="Search"
+            value={inputData}
             className="me-2"
             aria-label="Search"
+            onChange={(e)=>{setInputdata(e.target.value)}}
             />
-          <Button variant="outline-success">Search</Button>
+          <Button 
+            variant="outline-success"
+            onClick={() => getNFT()}>
+            Search
+           </Button>
         </Form>
         </Nav>
           <Nav className="" activeKey="/home">

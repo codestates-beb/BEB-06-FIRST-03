@@ -27,18 +27,28 @@ const Center = styled.div`
 
 function App() {
 
-  const [items, setItems] = useState(initialState.items);
-  const [ walletAccount, setAccount] = useState('');
+  const [items, setItems] = useState(initialState.items); //더미
+  const [ walletAccount, setAccount] = useState(''); //현재지갑
+  const [ nft, setNFT] = useState([]); //가져온 데이터 
 
   const connetWallet = (account) => {
     setAccount(account);
+  }
+
+  const searchNFT = (data) => {
+    setNFT(data);
   }
 
   const navigate = useNavigate();
 
   return (
     <div>
-      <Header connetWallet={connetWallet} />{/*로고 등*/}
+      {/*로고 등*/}
+      <Header 
+        connetWallet={connetWallet} 
+        walletAccount={walletAccount} 
+        searchNFT={searchNFT}
+      />
       
       {/*
       /  : Main page
