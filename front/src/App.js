@@ -29,14 +29,18 @@ function App() {
 
   const [items, setItems] = useState(initialState.items); //더미
   const [ walletAccount, setAccount] = useState(''); //현재지갑
-  const [ nft, setNFT] = useState([]); //가져온 데이터 
+  const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
+  const [search, setSearch] = useState("노른자 분리기");
+  
 
   const connetWallet = (account) => {
     setAccount(account);
   }
 
-  const searchNFT = (data) => {
-    setNFT(data);
+  /**검색 결과를 search state에 적용 */
+  const searchNft = (data) => {
+    console.log(data)
+    setNftGroup(data);
   }
 
   const navigate = useNavigate();
@@ -47,9 +51,9 @@ function App() {
       <Header 
         connetWallet={connetWallet} 
         walletAccount={walletAccount} 
-        searchNFT={searchNFT}
+        searchNft={searchNft}
       />
-      
+    
       {/*
       /  : Main page
       /search : NFT조회 페이지 컴포넌트
@@ -62,7 +66,7 @@ function App() {
       <Sidebar />{/*차트 넣기*/}
       <Routes>
         <Route path="/" element={<Main  />} />
-        <Route path="/search" element={<Search items={items} />} />
+        <Route path="/search" element={<Search items={items} search={search}/>} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mint" element={<Mint />} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import { useNavigate} from "react-router-dom";
 import Web3 from 'web3';
 
 // TODO - 해더에 로고를 넣고 mint,mypage,지갑 버튼을 넣습니다.
@@ -13,7 +13,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 //import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Header = ({ connetWallet, walletAccount, searchNFT  }) => {
+const Header = ({ connetWallet, walletAccount, searchNft  }) => {
   
   const navigate = useNavigate();
 
@@ -21,6 +21,7 @@ const Header = ({ connetWallet, walletAccount, searchNFT  }) => {
   const [ inputData, setInputdata ] = useState(walletAccount);
   
   //최초 랜더링시 지갑과 연결합니다.
+
   useEffect(() => {
     if (typeof Window.ethereum !== "undefind") {
       try {
@@ -40,19 +41,19 @@ const Header = ({ connetWallet, walletAccount, searchNFT  }) => {
     setInputdata(accounts[0]);
   }
 
-  const getNFT = async () =>{
+  const getNft = async () =>{
     try {
-      const isAdress = inputData.split('0x');
+      const isAddress = inputData.split('0x');
       //10진수(tokenId)를 입력시에 query에 tokenId를 담는다
-      const query = (isAdress.length < 2) ? "tokenId" : "address";
+      const query = (isAddress.length < 2) ? "tokenId" : "address";
       const url = `http://localhost:8080?${query}=${inputData}`
       // const result = await axios.get(url);
       //예상 result = {data: [{tokenId, tokenURI}] }
       if(query === "tokenId"){
-        searchNFT("[{ inputData, result.data}]"); //tokenId로 검색하면 tokenURI 하나만 온다
+        searchNft("[{ inputData, result.data}]"); //tokenId로 검색하면 tokenURI 하나만 온다
         navigate('/detail');
       } else {
-        searchNFT("result.data");
+        searchNft("result.data");
         navigate('/search');
       }
     } catch (err) {
@@ -83,17 +84,17 @@ const Header = ({ connetWallet, walletAccount, searchNFT  }) => {
             />
           <Button 
             variant="outline-success"
-            onClick={() => getNFT()}>
+            onClick={() => getNft()}>
             Search
            </Button>
         </Form>
         </Nav>
           <Nav className="" activeKey="/home">
               <Nav.Item>
-                <Nav.Link to='/mint'>Mint</Nav.Link>
+                <Nav.Link onClick={() => navigate("/mint")}>Mint</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-              <Nav.Link to='/mypage'>Mypage</Nav.Link>
+              <Nav.Link onClick={() => navigate("/mypage")}>Mypage</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link 
