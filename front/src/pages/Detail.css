@@ -1,0 +1,121 @@
+*{
+    box-sizing: border-box;
+}
+
+.container{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.img {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    float: left;
+    width: 60%;
+    height: 70%;
+    border: 1px solid #03cf5d;
+    align-items: center;
+}
+
+.description{
+    margin-top: 7%;
+    margin-left: 10%;
+    height: 9%;
+}
+  .name {
+    margin-top: 5%;
+    float: right;
+    width: 40%;
+    height: 100%;
+    border: 1px solid #03cf5d;
+    border-radius: 10px;
+  }
+
+  .tokenId {
+    margin-top: 3%;
+    float: right;
+    width: 40%;
+    height: 100%;
+    border: 1px solid #03cf5d;
+    border-radius: 10px;
+  }
+
+  .address {
+    margin-top: 3%;
+    float: right;
+    width: 40%;
+    height: 100%;
+    border: 1px solid #03cf5d;
+    border-radius: 10px;
+  }
+
+  .details {
+    margin-top: 3%;
+    float: right;
+    width: 40%;
+    height: 350%;
+    border: 1px solid #03cf5d;
+    border-radius: 10px;
+  }
+
+  
+.tradeBox {
+    margin-top: 3%;
+    margin-bottom: 10%;
+    clear: both;
+    width: 50%;
+    height: 5%;
+    border: 1px solid #03cf5d;
+    border-radius: 10px;
+  }
+
+  @media screen and (max-width: 800px) {
+    .img {
+        margin-top: 10%;
+        margin-bottom: 7%;
+        float: left;
+        width: 100%;
+        height: 70%;
+        border: 1px solid #03cf5d;
+        align-items: center;
+    }
+    .description{
+        margin-left: 0;
+        height: 9%;
+    }
+    .name {
+        margin-top: 0%;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #03cf5d;
+        border-radius: 10px;
+      }
+    
+      .tokenId {
+        margin-top: 3%;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #03cf5d;
+        border-radius: 10px;
+      }
+    
+      .address {
+        margin-top: 3%;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #03cf5d;
+        border-radius: 10px;
+      }
+    
+      .details {
+        margin-top: 3%;
+        width: 100%;
+        height: 350%;
+        border: 1px solid #03cf5d;
+        border-radius: 10px;
+      }
+    
+
+
+  }
