@@ -72,7 +72,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main  />} />
         <Route path="/search" element={<Search nftGroup={nftGroup} selectNft={selectNft} />} />
-        <Route path="/detail" element={<Detail selectedNft={selectedNft}/>} />
+        <Route path="/detail" element={<Detail selectedNft={selectedNft} walletAccount={walletAccount} />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mint" element={<Mint />} />
         <Route path="/trade" element={<Trade />} />
