@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Item from '../components/Item';
 // TODO - nft 조회 페이지를 작성합니다.
-export default function Search ({ items ,search}) {
-  let filteredItems=items.filter((item)=>item.name===search);
+export default function Search ({ nftGroup,selectNft }) {
+  const navigate = useNavigate();
+  const clickNft=(nft)=>{
+    console.log(nft);
+    selectNft(nft);
+    navigate("/detail");
+  };
   return (
     <div id="item-list-container">
       <div id="item-list-body">
         <div id="item-list-title">검색 결과</div>
         <Container>
-          {filteredItems.length===0?<div>검색 결과가 없습니다</div>:
+          {nftGroup.length===0?<div>검색 결과가 없습니다</div>:
           <Row>
           
-          {filteredItems.map((item, idx) => 
+          {nftGroup.map((nft, idx) => 
             
-            <Item item={item} key={idx} />
+            <Item nft={nft} key={idx} clickNft={clickNft} />
           
           )}
           </Row>}

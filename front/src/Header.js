@@ -13,7 +13,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 //import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Header = ({ connetWallet, walletAccount, searchNft  }) => {
+const Header = ({ connetWallet, walletAccount, searchNft ,selectNft }) => {
   
   const navigate = useNavigate();
 
@@ -47,13 +47,24 @@ const Header = ({ connetWallet, walletAccount, searchNft  }) => {
       //10진수(tokenId)를 입력시에 query에 tokenId를 담는다
       const query = (isAddress.length < 2) ? "tokenId" : "address";
       const url = `http://localhost:8080?${query}=${inputData}`
-      // const result = await axios.get(url);
-      //예상 result = {data: [{tokenId, tokenURI}] }
+      // 
+      
       if(query === "tokenId"){
-        searchNft("[{ inputData, result.data}]"); //tokenId로 검색하면 tokenURI 하나만 온다
+        /*const dum = await axios({
+          method: "get",
+          url: "https://bafybeidl6e6fx7fyw4semacgymugiygaumoxbv3qdfcl7ehtqs25lw6ive.ipfs.dweb.link/",
+          headers: {
+            accept: "application/json",
+          },
+          withCredentials: true,
+        });
+        console.log(dum);*/
+        let result = {data:{"name":"첫번쨰 그림","description":"이건 첫번째임","image":"../images/egg.png","attributes":[{"background":"cyan"},{"chair":"lightwood"}]}};//search(tokenId)임시 더미 응답
+        selectNft({tokenId: inputData ,tokenURI:result.data}); //tokenId로 검색하면 tokenURI 하나만 온다
         navigate('/detail');
       } else {
-        searchNft("result.data");
+        let result = {data: [{tokenId:0, tokenURI:{"name":"첫번쨰 그림","description":"이건 첫번째임","image":"../images/egg.png","attributes":[{"background":"cyan"},{"chair":"lightwood"}]}},{tokenId:1, tokenURI:{"name":"두번쨰 그림","description":"이건 두번째임","image":"../images/egg.png","attributes":[{"background":"cyan"},{"chair":"lightwood"}]}},{tokenId:2, tokenURI:{"name":"세번쨰 그림","description":"이건 세번째임","image":"../images/egg.png","attributes":[{"background":"cyan"},{"chair":"lightwood"}]}}] };//search(address)임시 더미 응답
+        searchNft(result.data);
         navigate('/search');
       }
     } catch (err) {

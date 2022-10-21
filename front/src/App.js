@@ -30,6 +30,7 @@ function App() {
   const [items, setItems] = useState(initialState.items); //더미
   const [ walletAccount, setAccount] = useState(''); //현재지갑
   const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
+  const [selectedNft,setSelectedNft]=useState();//detail에 필요한 선택된 nft저장{tokenId: inputData ,tokenURI:result.data}
   const [search, setSearch] = useState("노른자 분리기");
   
 
@@ -38,9 +39,12 @@ function App() {
   }
 
   /**검색 결과를 search state에 적용 */
-  const searchNft = (data) => {
-    console.log(data)
-    setNftGroup(data);
+  const searchNft = (Nfts) => {
+    //console.log(Nfts)
+    setNftGroup(Nfts);
+  }
+  const selectNft =(Nft)=>{
+    setSelectedNft(Nft);
   }
 
   const navigate = useNavigate();
@@ -51,6 +55,7 @@ function App() {
       <Header 
         connetWallet={connetWallet} 
         walletAccount={walletAccount} 
+        selectNft={selectNft}
         searchNft={searchNft}
       />
     
@@ -66,8 +71,8 @@ function App() {
       <Sidebar />{/*차트 넣기*/}
       <Routes>
         <Route path="/" element={<Main  />} />
-        <Route path="/search" element={<Search items={items} search={search}/>} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/search" element={<Search nftGroup={nftGroup} selectNft={selectNft} />} />
+        <Route path="/detail" element={<Detail selectedNft={selectedNft}/>} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mint" element={<Mint />} />
         <Route path="/trade" element={<Trade />} />
