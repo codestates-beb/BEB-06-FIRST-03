@@ -32,14 +32,15 @@ require('dotenv').config();
           const isowner = await constract.methods.ownerOf(count).call();
           if(isowner === address){
             outputs.push({tokenId: count});
+            console.log(outputs)
+            myNft--;
           }
           count++;
-          myNft--;
         } catch (err) { //발행되지 않은 tokenId입력시 카운트만 증가
           count++;
         }
       }
-
+      
       //찾은 tokenId로 이번엔 tokenURI를 받아온다
       for (const obj of outputs) {  
         const tokenURI = await constract.methods.tokenURI(obj.tokenId).call();
