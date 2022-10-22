@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import './Detail.css';
@@ -12,14 +13,39 @@ export default function Detail ({selectedNft,walletAccount}) {
   const handleShow = () => setShow(true);
 
   async function trading(){
-    const data={
-      "to":"owner address",
-      "from":walletAccount,
-      "tokenId":selectedNft.tokenId
-    };
-    //아무튼 POST 요청 추가 예정
-    console.log(data);
-    setShow(false);
+    //메타마스크에 연결하여 transaction를 생성합니다.
+    //transfer전에 반드시 accout조회가 되어야함. 
+    const accounts = await window.ethereum.request({ 
+      method: 'eth_requestAccounts',
+    });
+
+    const to = accounts[0].split('0x'); //0x뒤만 필요함, 지갑주인만 transfer가능함.
+
+    //from과 tokebId는 더미로 작성됨
+    const from = "0x00";
+    const transferTokenId = "3"; // .toString()으로 문자열로 변환 tokenId는 총 64자리
+    let zero = "0000000000000000000000000000000000000000000000000000000000000000";
+    const setzero = zero.split("").slice(transferTokenId.length).join(""); // tokenId자리수만큼 0을 뺀다
+
+    window.ethereum
+    .request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: accounts[0],
+          to: from, /*보낼사람주소*/
+          data: "0x42842e0e"+ //transfer 함수호출 해당문자열은 변경금지!
+            "000000000000000000000000"+to[1]+
+            "000000000000000000000000"+from[1]+
+            setzero+transferTokenId,
+        },
+      ],
+    })
+    .then((txHash) => {
+      console.log(txHash);
+      setShow(false); //성공시 창을 닫는다.
+    })
+    .catch((err) => console.log(err));
   }
 
   return (
