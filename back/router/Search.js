@@ -32,7 +32,6 @@ require('dotenv').config();
           const isowner = await constract.methods.ownerOf(count).call();
           if(isowner === address){
             outputs.push({tokenId: count});
-            console.log(outputs)
             myNft--;
           }
           count++;
@@ -79,7 +78,7 @@ require('dotenv').config();
         console.log("URI가 정확하지않습니다.");  
         try {
           const tokenURI = await constract.methods.tokenURI(tokenId).call(); 
-          return res.status(400).send({ data: { tokenURI: tokenURI }});
+          return res.status(200).send({ data: { tokenURI: tokenURI }});
         } catch (err) { 
           console.log("잘못된 tokenId입니다.");
           return res.status(400).send({ message: "invalid tokenId"});
