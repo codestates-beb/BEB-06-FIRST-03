@@ -9,9 +9,9 @@ import Sidebar from "./Sidebar";
 import Main from "./pages/Main";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
-import Mypage from "./pages/Mypage";
+
 import Mint from "./pages/Mint";
-import Trade from "./pages/Trade";
+
 import Empty from "./pages/Empty";
 
 //import axios from "axios";
@@ -31,9 +31,9 @@ function App() {
   const [ walletAccount, setAccount] = useState(''); //현재지갑
   const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
   const [selectedNft,setSelectedNft]=useState();//detail에 필요한 선택된 nft저장{tokenId: inputData ,tokenURI:result.data}
-  const [search, setSearch] = useState("노른자 분리기");
+  const [search, setSearch] = useState("노른자 분리기");//더미
   
-
+  /**연결된 지갑 주소를 walletAccount state에 적용 */
   const connetWallet = (account) => {
     setAccount(account);
   }
@@ -43,6 +43,7 @@ function App() {
     //console.log(Nfts)
     setNftGroup(Nfts);
   }
+  /**선택된 단일 nft를 selectedNft state에 적용 */
   const selectNft =(Nft)=>{
     setSelectedNft(Nft);
   }
@@ -73,9 +74,9 @@ function App() {
         <Route path="/" element={<Main  />} />
         <Route path="/search" element={<Search nftGroup={nftGroup} selectNft={selectNft} />} />
         <Route path="/detail" element={<Detail selectedNft={selectedNft} walletAccount={walletAccount} />} />
-        <Route path="/mypage" element={<Mypage />} />
+        
         <Route path="/mint" element={<Mint />} />
-        <Route path="/trade" element={<Trade />} />
+        
         <Route path="*" element={<Empty />} />
       </Routes>
       </Center>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import { useNavigate} from "react-router-dom";
 import Web3 from 'web3';
 
@@ -20,8 +20,8 @@ const Header = ({ connetWallet, walletAccount, searchNft ,selectNft }) => {
   const [ web, setWeb3 ] = useState();
   const [ inputData, setInputdata ] = useState(walletAccount);
   
-  //최초 랜더링시 지갑과 연결합니다.
-
+  
+  /**최초 랜더링시 지갑과 연결합니다.*/
   useEffect(() => {
     if (typeof Window.ethereum !== "undefind") {
       try {
@@ -32,33 +32,33 @@ const Header = ({ connetWallet, walletAccount, searchNft ,selectNft }) => {
       }
     }
   }, []);
-
-  const conneectWallet = async () => {
+  /**지갑 연결합니다.*/
+  const connectWallet = async () => {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
     connetWallet(accounts[0]);
     setInputdata(accounts[0]);
   }
-
+  /** http://localhost:8080?${query}=${inputData} 로 get요청을 보내 nftgoup 또는 selectednft를 성정합니다.*/
   const getNft = async () =>{
     try {
-      const isAddress = inputData.split('0x');
+      const isAddress = inputData.slice(0,2);
       //10진수(tokenId)를 입력시에 query에 tokenId를 담는다
-      const query = (isAddress.length < 2) ? "tokenId" : "address";
-      const url = `http://localhost:8080?${query}=${inputData}`
-      // 
-      
+      const query = (isAddress!=="0x") ? "tokenId" : "address";
+      const url = `http://localhost:8080/search?${query}=${inputData}`
+      // http://localhost:8080/search?address=0x3AD254289688001fB5a427121AAf0bf77000e6D7
+      const dum = await axios({
+        method: "get",
+        url: url,
+        headers: {
+          accept: "application/json",
+        },
+        withCredentials: true,
+      });
+      console.log(dum.data.data);
       if(query === "tokenId"){
-        /*const dum = await axios({
-          method: "get",
-          url: "https://bafybeidl6e6fx7fyw4semacgymugiygaumoxbv3qdfcl7ehtqs25lw6ive.ipfs.dweb.link/",
-          headers: {
-            accept: "application/json",
-          },
-          withCredentials: true,
-        });
-        console.log(dum);*/
+        
         let result = {data:{"name":"첫번쨰 그림","description":"이건 첫번째임","image":"../images/egg.png","attributes":[{"background":"cyan"},{"chair":"lightwood"}]}};//search(tokenId)임시 더미 응답
         selectNft({tokenId: inputData ,tokenURI:result.data}); //tokenId로 검색하면 tokenURI 하나만 온다
         navigate('/detail');
@@ -68,8 +68,14 @@ const Header = ({ connetWallet, walletAccount, searchNft ,selectNft }) => {
         navigate('/search');
       }
     } catch (err) {
-      console.log(err)
-      alert("계정 또는 토큰 아이디가 잘못 되었습니다.")
+      if(err.response.data.message==="invalid address"){
+        alert("없는 지갑계정 입니다.");
+      }else if(err.response.data.message==="invalid tokenId"){
+        alert("잘못된 tokenId입니다.")
+      }else{
+        alert("계정 또는 토큰 아이디가 잘못 되었습니다.");
+      }
+      
     }   
   }
 
@@ -110,7 +116,7 @@ const Header = ({ connetWallet, walletAccount, searchNft ,selectNft }) => {
               <Nav.Item>
                 <Nav.Link 
                   eventKey="link-2" 
-                  onClick={() => conneectWallet()}>
+                  onClick={() => connectWallet()}>
                   Wallet
                 </Nav.Link>
               </Nav.Item>
