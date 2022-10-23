@@ -18,7 +18,7 @@ const Mid = styled.form`
   
 `
 
-export default function Mint () {
+export default function Mint ({ nftGroup }) {
   const [imageUrl,setImageUrl]=useState("");
   const [nftName,setNftName]=useState("");
   const [description,setDescription]=useState("");
