@@ -18,7 +18,7 @@ const Mid = styled.form`
 `
 const ipfs = ipfsHttpClient('/ip4/127.0.0.1/tcp/5001');
 
-export default function Mint () {
+export default function Mint ({ nftGroup }) {
   const [imageUrl,setImageUrl]=useState("");
   const [nftName,setNftName]=useState("");
   const [description,setDescription]=useState("");

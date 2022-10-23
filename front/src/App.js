@@ -27,22 +27,22 @@ const Center = styled.div`
 
 function App() {
 
-  const [items, setItems] = useState(initialState.items); //더미
+  const [ items, setItems ] = useState(initialState.items); //더미
   const [ walletAccount, setAccount] = useState(''); //현재지갑
   const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
-  const [selectedNft,setSelectedNft]=useState();//detail에 필요한 선택된 nft저장{tokenId: inputData ,tokenURI:result.data}
-  const [search, setSearch] = useState("노른자 분리기");//더미
-  
+  const [ selectedNft, setSelectedNft ]=useState(0);//detail에 필요한 선택된 nft저장{tokenId: inputData ,tokenURI:result.data}
+  const [ search, setSearch ] = useState("노른자 분리기");//더미
+
   /**연결된 지갑 주소를 walletAccount state에 적용 */
-  const connetWallet = (account) => {
+  const connectWallet = (account) => {
     setAccount(account);
   }
 
   /**검색 결과를 search state에 적용 */
   const searchNft = (Nfts) => {
-    //console.log(Nfts)
     setNftGroup(Nfts);
   }
+
   /**선택된 단일 nft를 selectedNft state에 적용 */
   const selectNft =(Nft)=>{
     setSelectedNft(Nft);
@@ -54,10 +54,10 @@ function App() {
     <div>
       {/*로고 등*/}
       <Header 
-        connetWallet={connetWallet} 
+        connectWallet={connectWallet}
         walletAccount={walletAccount} 
-        selectNft={selectNft}
         searchNft={searchNft}
+        selectNft={selectNft}//더미
       />
     
       {/*
@@ -69,16 +69,34 @@ function App() {
       /trade : 거래 페이지 컴포넌트
       * : emptyPage 컴포넌트*/}
       <Center>
-      <Sidebar />{/*차트 넣기*/}
-      <Routes>
-        <Route path="/" element={<Main  />} />
-        <Route path="/search" element={<Search nftGroup={nftGroup} selectNft={selectNft} />} />
-        <Route path="/detail" element={<Detail selectedNft={selectedNft} walletAccount={walletAccount} />} />
-        
-        <Route path="/mint" element={<Mint />} />
-        
-        <Route path="*" element={<Empty />} />
-      </Routes>
+        <Sidebar />{/*차트 넣기*/}
+        <Routes>
+          <Route path="/" element={
+            <Main 
+              searchNft={searchNft}
+              nftGroup={nftGroup}
+              selectNft={selectNft}
+            />} 
+          />
+          <Route path="/search" element={
+            <Search
+               nftGroup={nftGroup} 
+               electNft={selectNft} 
+            />} 
+          />
+          <Route path="/detail" element={
+            <Detail 
+              selectedNft={selectedNft} 
+              walletAccount={walletAccount} 
+            />} 
+          />
+          <Route path="/mint" element={
+            <Mint 
+              nftGroup={nftGroup}
+            />} 
+          />
+          <Route path="*" element={<Empty />} />
+        </Routes>
       </Center>
       {/*<Footer />깃헙 페이지 홈정보*/}
 

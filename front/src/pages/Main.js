@@ -8,9 +8,10 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
 // TODO - 메인 페이지를 작성합니다.
-export default function Main () {
-  const [assets, setAssets] = useState([]);
+export default function Main ({ nftGroup, searchNft, selectNft }) {
+
   const [loading, setloading] = useState(true);
+  
   useEffect(()=> {
     callImage();
   },[])
@@ -23,10 +24,10 @@ export default function Main () {
     setloading(true);
     axios.request(options)
       .then((res) => {
-        setAssets(res.data.assets);
+        searchNft(res.data.assets);
         setloading(false);
       })
-      .catch((e) =>  console.error(e));
+      .catch((e) => console.error(e));
   }
 
   const navigate = useNavigate();
@@ -34,13 +35,30 @@ export default function Main () {
   return (
     <Container>
       <Row>
-        {loading?<>로딩중</>:assets.map((asset,idx)=>
-        <Card style={{ width: '18rem' }} key ={idx}>
-        <Card.Img variant="top" src={asset.image_url} />
-        <Card.Body>
-          <Card.Title>{asset.name}</Card.Title>
-        </Card.Body>
-        </Card>)}
+        {loading
+          ? <>로딩중</>
+          : nftGroup.map((asset,idx) =>
+              <Card
+                style={{ width: '18rem' }} 
+                href="/detail"  
+                key ={idx}              
+                onClick={() => { 
+                  console.log("현재 선택된 nft", idx);
+                  selectNft(idx);
+                  navigate("/detail");
+                }
+                }
+              >
+                <Card.Img 
+                  variant="top" 
+                  src={asset.image_url} 
+                />
+                <Card.Body>
+                  <Card.Title>{asset.name}</Card.Title>
+                </Card.Body>
+              </Card>
+          )
+        }
       </Row>
     </Container>
   );
