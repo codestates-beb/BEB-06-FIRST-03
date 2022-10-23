@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { create as ipfsHttpClient } from 'ipfs-http-client';
 //import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -14,16 +15,15 @@ const Mid = styled.form`
   width: 60%;
   height: 70%;
   position:relative;
-  
-  
 `
+const ipfs = ipfsHttpClient('/ip4/127.0.0.1/tcp/5001');
 
 export default function Mint ({ nftGroup }) {
   const [imageUrl,setImageUrl]=useState("");
   const [nftName,setNftName]=useState("");
   const [description,setDescription]=useState("");
   const [categorys,setCategory]=useState([{"trait_type":"","value":""}]);
-
+  
   function inputImageUrl(e) {
     setImageUrl(e.target.value); 
   }
@@ -43,14 +43,30 @@ export default function Mint ({ nftGroup }) {
     updateCate[idx].value=e.target.value;
     setCategory(updateCate); 
   }
+  /** ipfs에 tokenId의 내용을 추가함dag-jose @chainsafe*/
+  async function addIpfs(data) {
+    try{
+      
+      
+      console.log(ipfs);
+      const added = await ipfs.add(data);
+      const url = `https://ipfs.io/ipfs/${added.path}?filename=${added.path}`;
+      console.log(url);
+      return url;
+    }catch(err){
+      console.log(err);
+      return undefined;
+    }
+  }
   async function minting(e){
-    // const data={
-    //   "name":nftName,
-    //   "description":description,
-    //   "image":imageUrl,
-    //   "attributes":categorys
-    // };
-
+    const data={
+      "name":nftName,
+      "description":description,
+      "image":imageUrl,
+      "attributes":categorys
+    };
+    const dataJson=JSON.stringify(data);
+    let tokenId="https://ipfs.io/ipfs/"+addIpfs(dataJson);
     e.preventDefault(); //새로고침 안되게
 
 
@@ -82,8 +98,8 @@ export default function Mint ({ nftGroup }) {
       method: 'eth_requestAccounts',
     });
     const from = accounts[0].split('0x')[1];
-    const to = "0x95b65C0456F9D3Db3d471b70d2b57E400832588B" //contract account
-    const tokenURI = "test" //더미
+    const to = "0x95b65C0456F9D3Db3d471b70d2b57E400832588B"; //contract account
+    const tokenURI = tokenId;//
     const zero = "0000000000000000000000000000000000000000000000000000000000000000"; 
     const inputfrom = (zero + from).slice(-64); 
     let hexLength = tokenURI.hexEncode().length;
@@ -121,7 +137,7 @@ export default function Mint ({ nftGroup }) {
     setCategory([...categorys, input]); // 기존 값에 새로운 인풋객체를 추가해준다.
   }
 
-  // 삭제
+  // category삭제
   function deleteInput() {    // 인덱스 값을 받아서
     setCategory(categorys.slice(0,categorys.length-1)); // 인덱스 값과 같지 않은 애들만 남겨둔다
   }
