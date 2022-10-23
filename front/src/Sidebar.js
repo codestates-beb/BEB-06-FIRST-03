@@ -26,9 +26,9 @@ const Sidebar = () => {
         <NavLink to="/" style = {{backgroundColor : 'green'}}>main</NavLink>
         <NavLink to="/search" style = {{backgroundColor : 'red'}}>search</NavLink>
         <NavLink to="/detail" style = {{backgroundColor : 'gold'}}>detail</NavLink>
-        <NavLink to="/mypage" style = {{backgroundColor : 'gold'}}>mypage</NavLink>
+        
         <NavLink to="/mint" style = {{backgroundColor : 'gold'}}>mint</NavLink>
-        <NavLink to="/trade" style = {{backgroundColor : 'gold'}}>trade</NavLink>
+       
         <NavLink to="*" style = {{backgroundColor : 'gold'}}>emptyPage</NavLink>
     </Side>
   );

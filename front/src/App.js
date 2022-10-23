@@ -9,9 +9,9 @@ import Sidebar from "./Sidebar";
 import Main from "./pages/Main";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
-import Mypage from "./pages/Mypage";
+
 import Mint from "./pages/Mint";
-import Trade from "./pages/Trade";
+
 import Empty from "./pages/Empty";
 
 //import axios from "axios";
@@ -74,9 +74,9 @@ function App() {
         <Route path="/" element={<Main  />} />
         <Route path="/search" element={<Search nftGroup={nftGroup} selectNft={selectNft} />} />
         <Route path="/detail" element={<Detail selectedNft={selectedNft} walletAccount={walletAccount} />} />
-        <Route path="/mypage" element={<Mypage />} />
+        
         <Route path="/mint" element={<Mint />} />
-        <Route path="/trade" element={<Trade />} />
+        
         <Route path="*" element={<Empty />} />
       </Routes>
       </Center>
