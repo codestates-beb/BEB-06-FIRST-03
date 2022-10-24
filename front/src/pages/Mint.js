@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
 //import { Link } from 'react-router-dom';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -9,8 +10,7 @@ import Row from 'react-bootstrap/Row';
 // TODO - Mint 페이지를 작성합니다.
 import styled from "styled-components";
 const Mid = styled.form`
-  margin-top: 10%;
-  margin-top: 10%;
+  margin-top: 2%;
   margin-left: 10%;
   width: 60%;
   height: 70%;
@@ -23,11 +23,22 @@ export default function Mint ({ nftGroup }) {
   const [nftName,setNftName]=useState("");
   const [description,setDescription]=useState("");
   const [categorys,setCategory]=useState([{"trait_type":"","value":""}]);
-  
+  const [tokenUrl,setTokenUrl]=useState('');
+  const [disabled,setDisabled]=useState(true);
+  const [mintDisabled,setMintDisabled]=useState(true);
+
+  /* form 데이터를 세팅하는 함수들*/
+
   function inputImageUrl(e) {
+    
     setImageUrl(e.target.value); 
   }
   function inputNftName(e) {
+    if(e.target.value!==""){
+      setMintDisabled(false);
+    }else{
+      setMintDisabled(true);
+    }
     setNftName(e.target.value); 
   }
   function inputDescription(e) {
@@ -43,31 +54,37 @@ export default function Mint ({ nftGroup }) {
     updateCate[idx].value=e.target.value;
     setCategory(updateCate); 
   }
-  /** ipfs에 tokenId의 내용을 추가함dag-jose @chainsafe*/
-  async function addIpfs(data) {
+  function inputTokenUrl(e) {
+    
+    setTokenUrl(e.target.value); 
+  }
+  /** ipfs에 tokenId의 내용을 추가함*/
+  async function addIpfs() {
     try{
-      console.log(ipfs);
-      const added = await ipfs.add(data);
-      const url = `https://ipfs.io/ipfs/${added.path}?filename=${added.path}`;
-      console.log(url);
-      return url;
+      const data={
+        "name":nftName,
+        "description":description,
+        "image_url":imageUrl,
+        "attributes":categorys
+      };
+      //console.log(ipfs);
+      const jsonData=JSON.stringify(data);
+      const added = await ipfs.add(jsonData);
+      setDisabled(true);
+      setTokenUrl(`https://ipfs.io/ipfs/${added.path}?filename=${added.path}`);
+      
     }catch(err){
       console.log(err);
-      return undefined;
+      setDisabled(false);
+      setTokenUrl("ipfs업로드에 실패 했습니다. 직접 url을 입력해 주세요");
     }
   }
   async function minting(e){
+    
+    
     e.preventDefault(); //새로고침 안되게
 
-    const data={
-      "name":nftName,
-      "description":description,
-      "image":imageUrl,
-      "attributes":categorys
-    };
-    const dataJson=JSON.stringify(data);
-
-    let tokenId="https://ipfs.io/ipfs/"+addIpfs(dataJson);
+    let tokenId="https://ipfs.io/ipfs/"+addIpfs();
 
     String.prototype.hexEncode = function(){
       var hex, i;   
@@ -102,7 +119,7 @@ export default function Mint ({ nftGroup }) {
 
     const from = accounts[0].split('0x')[1];
     const to = "0x95b65C0456F9D3Db3d471b70d2b57E400832588B"; //contract account
-    const tokenURI = tokenId;//
+    const tokenURI = tokenUrl;//
     const zero = "0000000000000000000000000000000000000000000000000000000000000000"; 
     const inputfrom = (zero + from).slice(-64); 
     let hexLength = tokenURI.hexEncode().length;
@@ -158,7 +175,7 @@ export default function Mint ({ nftGroup }) {
           이미지 url
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="email" placeholder="http:/" onChange={inputImageUrl} />
+          <Form.Control  placeholder="http:/" onChange={inputImageUrl} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
@@ -166,7 +183,7 @@ export default function Mint ({ nftGroup }) {
           NFT 이름
         </Form.Label>
         <Col sm={10}>
-          <Form.Control type="email" placeholder="NFT-Name" onChange={inputNftName} />
+          <Form.Control  placeholder="NFT-Name" onChange={inputNftName} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
@@ -195,17 +212,26 @@ export default function Mint ({ nftGroup }) {
           );
         })}
         <Col >
-        <Button variant="outline-primary" onClick={addInput}>+</Button>
+        <ButtonGroup aria-label="Basic example">
+          <Button variant="outline-success" onClick={addInput} >+</Button>
+          <Button variant="outline-danger" onClick={deleteInput}>-</Button>
+        </ButtonGroup>
         </Col>
-        <Col>
-        <Button variant="outline-danger" onClick={deleteInput}>-</Button>
-        </Col>
-        
       </Form.Group>
-
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Label column sm={2}>
+          tokenUrl
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control as="textarea" placeholder="http://" rows={3} value={tokenUrl} onChange={inputTokenUrl} disabled={disabled} />
+        </Col>
+        <Col sm={{ span: 10, offset: 2 }}>
+          <Button variant="outline-secondary" onClick={addIpfs}>make ipfs</Button>
+        </Col>
+      </Form.Group>
       <Form.Group as={Row} className="mb-3">
         <Col sm={{ span: 10, offset: 2 }}>
-          <Button type="submit" onClick={(e) => minting(e)}>Mint</Button>
+          <Button type="submit" onClick={(e)=>minting(e)} disabled={mintDisabled} >Mint</Button>
         </Col>
       </Form.Group>
     </Form>

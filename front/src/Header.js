@@ -87,12 +87,12 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
                 <option value="asset_contract_address">Contract</option>
               </Form.Select>
             <Form.Control
-              type="search"
-              placeholder="Search"
-              value={inputData}
-              className="me-2"
-              aria-label="Search"
-              onChange={(e)=>{setInputdata(e.target.value)}}
+            type="search"
+            placeholder="0x00"
+            value={inputData}
+            className="me-2"
+            aria-label="Search"
+            onChange={(e)=>{setInputdata(e.target.value)}}
             />
           <Button 
             variant="outline-success"

@@ -56,13 +56,13 @@ export default function Detail ({ selectedNft, walletAccount }) {
     <div className='container'>
     {!!selectedNft?
     <>
-      <div className = 'img'> {selectedNft.tokenURI.image} </div>
+      <img src={selectedNft.image_url} className = 'img'></img>
 
       <div className='description'> 
-        <div className='name'> {selectedNft.tokenURI.name} </div>
-        <div className='tokenId'> {selectedNft.tokenId} </div>
+        <div className='name'> {selectedNft.name} </div>
+        <div className='tokenId'> {selectedNft.token_id} </div>
         <div className='address'> owner address </div>
-        <p className='details'> {selectedNft.tokenURI.description} </p>
+        <p className='details'> {selectedNft.description} </p>
       </div>
 
       <button className='tradeBox' onClick={handleShow}> Trade </button>
