@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import './Detail.css';
 
-// TODO - 상세보기 페이지를 작성합니다.
-export default function Detail ({ selectedNft, walletAccount }) {
-  const [show, setShow] = useState(false);
+import altImg from "../files/alt_img.png"
 
+// TODO - 상세보기 페이지를 작성합니다.
+export default function Detail ({ selectedNft, walletAccount, nftGroup }) {
+  const { tokenIdx } = useParams();
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+
+  const trait = nftGroup[tokenIdx].traits;
 
   async function trading(){
     //메타마스크에 연결하여 transaction를 생성합니다.
@@ -50,25 +56,48 @@ export default function Detail ({ selectedNft, walletAccount }) {
       console.log(err);
       alert("트랜젝션 생성이 실패되었습니다.");
     });
+
+    
   }
 
-  return (
+  return ( 
+
     <div className='container'>
-    {!!selectedNft?
     <>
-      <img src={selectedNft.image_url} className = 'img'></img>
+      <img src={nftGroup[tokenIdx].image_url} className='img'></img>
 
       <div className='description'> 
-        <div className='name'> {selectedNft.name} </div>
-        <div className='tokenId'> {selectedNft.token_id} </div>
-        <div className='address'> owner address </div>
-        <p className='details'> {selectedNft.description} </p>
-      </div>
+        <div className='name'>{nftGroup[tokenIdx].name}</div>
+        <div className='tokenId'>{nftGroup[tokenIdx].token_id}</div>
+        <div className='address'>{nftGroup[tokenIdx].asset_contract.address}</div>
+        <p className='details'>{nftGroup[tokenIdx].description}</p>
 
-      <button className='tradeBox' onClick={handleShow}> Trade </button>
+        {trait.map((attribute, idx) =>
+
+        <div key={idx}>
+        <div className='trait_typekey' > {attribute. trait_type} </div>
+        <div className='value'> {attribute.value} </div>
+        </div>
+
+        )}
+      </div>
       
       </>
-      :<div>잘못된 접근입니다.</div>}
+        <>
+        <img
+            variant="top" 
+            src={nftGroup[tokenIdx].image_url ? nftGroup[tokenIdx].image_url : altImg} 
+            />
+          <description>
+            {nftGroup[tokenIdx].description ? nftGroup[tokenIdx].description: "no_description"}
+          </description>
+          <name>
+            {nftGroup[tokenIdx].name ? nftGroup[tokenIdx].name: "no_name"}
+          </name>
+        </>
+
+        <button className='tradeBox' onClick={handleShow}> Trade </button>
+
       <Offcanvas show={show} onHide={handleClose} placement='bottom'>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Trade</Offcanvas.Title>
