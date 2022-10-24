@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-//import Footer from "./Footer";
+import Footer from "./Footer";
 
 import Main from "./pages/Main";
 import Search from "./pages/Search";
@@ -27,11 +27,9 @@ const Center = styled.div`
 
 function App() {
 
-  const [ items, setItems ] = useState(initialState.items); //더미
   const [ walletAccount, setAccount] = useState(''); //현재지갑
   const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
   const [ selectedNft, setSelectedNft ]=useState(0);//detail에 필요한 선택된 nft저장{tokenId: inputData ,tokenURI:result.data}
-  const [ search, setSearch ] = useState("노른자 분리기");//더미
 
   /**연결된 지갑 주소를 walletAccount state에 적용 */
   const connectWallet = (account) => {
@@ -84,10 +82,11 @@ function App() {
                electNft={selectNft} 
             />} 
           />
-          <Route path="/detail" element={
+          <Route path="/detail/:idx" element={
             <Detail 
               selectedNft={selectedNft} 
               walletAccount={walletAccount} 
+              nftGroup={nftGroup}
             />} 
           />
           <Route path="/mint" element={
@@ -97,10 +96,9 @@ function App() {
           />
           <Route path="*" element={<Empty />} />
         </Routes>
+      {/* 깃헙 페이지 홈정보 */}
+      <Footer searchNft={searchNft} />
       </Center>
-      {/*<Footer />깃헙 페이지 홈정보*/}
-
-    
     </div>
   );
 }

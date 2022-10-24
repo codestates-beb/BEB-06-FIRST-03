@@ -67,6 +67,13 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
       });
   }
 
+  function handleKeyPress(e) { 
+    e.preventDefault(); //새로고침 안되게
+    if (e.type === 'keypress' && e.code === 'Enter') {
+    getNft();
+    }
+  }
+
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
@@ -87,16 +94,19 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
                 <option value="asset_contract_address">Contract</option>
               </Form.Select>
             <Form.Control
-            type="search"
-            placeholder="0x00"
-            value={inputData}
-            className="me-2"
-            aria-label="Search"
-            onChange={(e)=>{setInputdata(e.target.value)}}
+              type="search"
+              placeholder="0x00"
+              value={inputData}
+              className="me-2"
+              aria-label="Search"
+              onChange={(e) => setInputdata(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
           <Button 
             variant="outline-success"
-            onClick={() => getNft()}>
+            onClick={() => {
+              getNft();
+            }}>
             Search
            </Button>
         </Form>
@@ -111,7 +121,7 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
               <Nav.Item>
                 <Nav.Link 
                   eventKey="link-2" 
-                  onClick={() => {opentWallet()}}>
+                  onClick={() => opentWallet()}>
                   Wallet
                 </Nav.Link>
               </Nav.Item>

@@ -19,7 +19,7 @@ export default function Main ({ nftGroup, searchNft, selectNft }) {
   
   useEffect(()=> {
     callImage();
-  },[])
+  },[]);
 
   const callImage = () => {
     const options = {
