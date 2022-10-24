@@ -84,7 +84,7 @@ export default function Mint ({ nftGroup }) {
     
     e.preventDefault(); //새로고침 안되게
 
-    let tokenId="https://ipfs.io/ipfs/"+addIpfs(dataJson);
+    let tokenId="https://ipfs.io/ipfs/"+addIpfs();
 
     String.prototype.hexEncode = function(){
       var hex, i;   
