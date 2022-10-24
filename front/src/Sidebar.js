@@ -3,8 +3,6 @@ import React from 'react';
 import { Link ,NavLink} from 'react-router-dom';
 import styled from "styled-components";
 import "./App.css";
-
-
 const Side = styled.div`
   display: flex;
   border-right: 1px solid #e0e0e0;
@@ -23,17 +21,14 @@ const Side = styled.div`
       * : emptyPage 컴포넌트*/
 const Sidebar = () => {
   return (
-    <>
-      <coingecko-coin-list-widget  
-        coin-ids="bitcoin,ethereum,eos,ripple,litecoin" 
-        currency="usd" 
-        locale="ko" 
-        width="100">
-      </coingecko-coin-list-widget>
-      <span>
-
-      </span>
-    </>
+      <Side>
+        {/* TODO : About 메뉴 아이콘과 Mypage 메뉴 아이콘을 작성하고 Link 컴포넌트를 이용하여 경로(path)를 연결합니다. */}
+          <NavLink to="/" style = {{backgroundColor : 'green'}}>main</NavLink>
+          <NavLink to="/search" style = {{backgroundColor : 'red'}}>search</NavLink>
+          <NavLink to="/detail" style = {{backgroundColor : 'gold'}}>detail</NavLink>
+          <NavLink to="/mint" style = {{backgroundColor : 'gold'}}>mint</NavLink>
+          <NavLink to="*" style = {{backgroundColor : 'gold'}}>emptyPage</NavLink>
+      </Side>
   );
 };
 
