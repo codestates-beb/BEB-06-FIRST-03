@@ -7,10 +7,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
+import altImg from "../files/alt_img.png"
+import loadingImg from "../files/loading_img.png"
+
 // TODO - 메인 페이지를 작성합니다.
 export default function Main ({ nftGroup, searchNft, selectNft }) {
 
   const [loading, setloading] = useState(true);
+
+  const navigate = useNavigate();
   
   useEffect(()=> {
     callImage();
@@ -27,16 +32,20 @@ export default function Main ({ nftGroup, searchNft, selectNft }) {
         searchNft(res.data.assets);
         setloading(false);
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        console.error(e);
+        alert("서버와 연결이 원활하지 않습니다.");
+      });
+      
   }
 
-  const navigate = useNavigate();
-  
   return (
     <Container>
       <Row>
         {loading
-          ? <>로딩중</>
+          ? <>
+             <Card.Img style={{ width: '18rem' }} src={loadingImg} />
+            </>
           : nftGroup.map((asset,idx) =>
               <Card
                 style={{ width: '18rem' }} 
@@ -49,12 +58,12 @@ export default function Main ({ nftGroup, searchNft, selectNft }) {
                 }
                 }
               >
-                <Card.Img 
+                <Card.Img
                   variant="top" 
-                  src={asset.image_url} 
+                  src={asset.image_url ? asset.image_url : altImg} 
                 />
                 <Card.Body>
-                  <Card.Title>{asset.name}</Card.Title>
+                  <Card.Title>{asset.name ? asset.name: "no_name"}</Card.Title>
                 </Card.Body>
               </Card>
           )
