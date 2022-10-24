@@ -49,7 +49,11 @@ const Header = ({ walletAccount, connectWallet, searchNft ,selectNft }) => {
       .then((res) => {
         searchNft(res.data.assets);
       })
-      .catch((e) =>  console.error(e));
+      .catch((err) =>  {
+        if(err.name==='AxiosError'){
+          alert('   It\'s not address\nplease enter address(ex:0x123456789...)');
+        }
+      });
   }
 
   return (
@@ -66,7 +70,7 @@ const Header = ({ walletAccount, connectWallet, searchNft ,selectNft }) => {
             <Form className="d-flex">
             <Form.Control
             type="search"
-            placeholder="Search"
+            placeholder="0x00"
             value={inputData}
             className="me-2"
             aria-label="Search"
