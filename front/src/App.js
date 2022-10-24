@@ -4,17 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-//import Footer from "./Footer";
 
 import Main from "./pages/Main";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
 
 import Mint from "./pages/Mint";
-
 import Empty from "./pages/Empty";
 
-//import axios from "axios";
 import { initialState } from './dummy/dummy';
 import styled from "styled-components";
 import './App.css';
@@ -84,10 +81,11 @@ function App() {
                electNft={selectNft} 
             />} 
           />
-          <Route path="/detail" element={
+          <Route path="/detail/:tokenIdx" element={
             <Detail 
               selectedNft={selectedNft} 
               walletAccount={walletAccount} 
+              nftGroup={nftGroup}
             />} 
           />
           <Route path="/mint" element={

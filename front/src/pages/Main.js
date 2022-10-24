@@ -54,7 +54,7 @@ export default function Main ({ nftGroup, searchNft, selectNft }) {
                 onClick={() => { 
                   console.log("현재 선택된 nft", idx);
                   selectNft(idx);
-                  navigate("/detail");
+                  navigate(`/detail/${idx}`);
                 }
                 }
               >
