@@ -4,8 +4,6 @@ const port = 8080;
 const app = express();
 
 const searchRouter = require('./router/Search');
-const transferRouter = require('./router/Transfer');
-const mintRouter = require('./router/Mint');
 
 app.use( //cors설정
   cors({
@@ -18,17 +16,6 @@ app.use( //cors설정
 app.use(express.json()); //json으로 이루어진 Request Body를 받는다.
 
 app.use('/search', searchRouter);
-
-app.use('/transfer', transferRouter);
-
-app.use('/mint', mintRouter);
-
-
-/* nft 삭제기능
-*app.delete('/burn', (req, res) => {
-*  return res.status(200).send("burn");
-*})
-*/
 
 // 에러처리
 app.use((err, req, res, next) => { //에러발생시 처리 next(err)

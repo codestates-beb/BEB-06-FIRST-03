@@ -84,6 +84,7 @@ export default function Mint ({ nftGroup }) {
     
     e.preventDefault(); //새로고침 안되게
 
+    let tokenId="https://ipfs.io/ipfs/"+addIpfs(dataJson);
 
     String.prototype.hexEncode = function(){
       var hex, i;   
@@ -109,9 +110,13 @@ export default function Mint ({ nftGroup }) {
     
     //메타마스크에 연결하여 transaction를 생성합니다.
     //account 조회
+
+    if (!window.ethereum) alert("메타마스크에 연결되있지 않습니다.");
     const accounts = await window.ethereum.request({ 
       method: 'eth_requestAccounts',
     });
+    console.log(accounts)
+
     const from = accounts[0].split('0x')[1];
     const to = "0x95b65C0456F9D3Db3d471b70d2b57E400832588B"; //contract account
     const tokenURI = tokenUrl;//
@@ -139,8 +144,12 @@ export default function Mint ({ nftGroup }) {
     })
     .then((txHash) => {
       console.log(txHash); //생성된 트랜젝션 해쉬값
+      alert("트랜젝션이 생성되었습니다.")
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.error(e);
+      alert("트랜젝션 생성이 실패되었습니다.");
+    })
   }
 
   function addInput() {
@@ -194,10 +203,10 @@ export default function Mint ({ nftGroup }) {
             <Row key={idx}>
               
               <Col sm={4}>
-                <Form.Control placeholder="Type" onChange={(e)=>inputCategoryType(e,idx)}/>
+                <Form.Control placeholder="Type" onChange={(e) => inputCategoryType(e,idx)}/>
               </Col>
               <Col sm={4}>
-                <Form.Control placeholder="name" onChange={(e)=>inputCategoryValue(e,idx)}/>
+                <Form.Control placeholder="name" onChange={(e) => inputCategoryValue(e,idx)}/>
               </Col>
             </Row>
           );

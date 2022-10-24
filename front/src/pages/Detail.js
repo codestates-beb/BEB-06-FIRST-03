@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -15,6 +14,8 @@ export default function Detail ({ selectedNft, walletAccount }) {
   async function trading(){
     //메타마스크에 연결하여 transaction를 생성합니다.
     //accout조회 
+    
+    if (!window.ethereum) alert("메타마스크에 연결되있지 않습니다.");
     const accounts = await window.ethereum.request({ 
       method: 'eth_requestAccounts',
     });
@@ -45,7 +46,10 @@ export default function Detail ({ selectedNft, walletAccount }) {
       console.log(txHash); //생성된 트랜젝션 해쉬값
       setShow(false); //성공시 창을 닫는다.
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      alert("트랜젝션 생성이 실패되었습니다.");
+    });
   }
 
   return (

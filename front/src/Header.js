@@ -13,12 +13,13 @@ import Navbar from 'react-bootstrap/Navbar';
 
 //import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Header = ({ walletAccount, connectWallet, searchNft ,selectNft }) => {
+const Header = ({ walletAccount, connectWallet, searchNft }) => {
   
   const navigate = useNavigate();
 
   const [ web, setWeb3 ] = useState();
   const [ inputData, setInputdata ] = useState(walletAccount);
+  const [ searchFilter, setSearchFilter ] = useState("owner");
   
   /**최초 랜더링시 지갑과 연결합니다.*/
   useEffect(() => {
@@ -26,33 +27,43 @@ const Header = ({ walletAccount, connectWallet, searchNft ,selectNft }) => {
       try {
         const web = new Web3(window.ethereum);
         setWeb3(web);
-      } catch (err) {
-        console.log(err);
+        if(!(window.ethereum && window.ethereum.isMetaMask)) {
+          alert("메타마스크가 설치되어있지않습니다");
+          if(window.confirm("메타마스크를 설치하시겠습니까?")){
+            window.open("https://metamask.io/");
+          }    
+        }
+      } catch (e) {      
+        console.error(e);           
       }
     }
   }, []);
 
   const opentWallet = async () => {
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    connectWallet(accounts[0]);
-    setInputdata(accounts[0]);
+    try{
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      connectWallet(accounts[0]);
+      setInputdata(accounts[0]);
+    }catch(e) {
+      console.error(e);
+      alert("메타마스크에 연결되있지 않습니다.");
+    }
   }
 
   const getNft = async () =>{
     const options = {
       method: 'GET',
-      url: `https://testnets-api.opensea.io/api/v1/assets?owner=${inputData}&order_direction=desc&offset=0&limit=20&include_orders=false`
+      url: `https://testnets-api.opensea.io/api/v1/assets?${searchFilter}=${inputData}&order_direction=desc&offset=0&limit=20&include_orders=false`
     }
     axios.request(options)
       .then((res) => {
         searchNft(res.data.assets);
       })
-      .catch((err) =>  {
-        if(err.name==='AxiosError'){
-          alert('   It\'s not address\nplease enter address(ex:0x123456789...)');
-        }
+      .catch((e) => {
+        console.error(e);
+        alert("서버와 연결이 원활하지 않습니다.");
       });
   }
 
@@ -68,6 +79,13 @@ const Header = ({ walletAccount, connectWallet, searchNft ,selectNft }) => {
             navbarScroll
           >
             <Form className="d-flex">
+              <Form.Select 
+                value={searchFilter}
+                onChange={(e)=> setSearchFilter(e.target.value)}
+              >
+                <option value="owner">Address</option>
+                <option value="asset_contract_address">Contract</option>
+              </Form.Select>
             <Form.Control
             type="search"
             placeholder="0x00"

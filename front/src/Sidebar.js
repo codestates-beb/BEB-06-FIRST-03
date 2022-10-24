@@ -21,16 +21,14 @@ const Side = styled.div`
       * : emptyPage 컴포넌트*/
 const Sidebar = () => {
   return (
-    <Side>
-      {/* TODO : About 메뉴 아이콘과 Mypage 메뉴 아이콘을 작성하고 Link 컴포넌트를 이용하여 경로(path)를 연결합니다. */}
-        <NavLink to="/" style = {{backgroundColor : 'green'}}>main</NavLink>
-        <NavLink to="/search" style = {{backgroundColor : 'red'}}>search</NavLink>
-        <NavLink to="/detail" style = {{backgroundColor : 'gold'}}>detail</NavLink>
-        
-        <NavLink to="/mint" style = {{backgroundColor : 'gold'}}>mint</NavLink>
-       
-        <NavLink to="*" style = {{backgroundColor : 'gold'}}>emptyPage</NavLink>
-    </Side>
+      <Side>
+        {/* TODO : About 메뉴 아이콘과 Mypage 메뉴 아이콘을 작성하고 Link 컴포넌트를 이용하여 경로(path)를 연결합니다. */}
+          <NavLink to="/" style = {{backgroundColor : 'green'}}>main</NavLink>
+          <NavLink to="/search" style = {{backgroundColor : 'red'}}>search</NavLink>
+          <NavLink to="/detail" style = {{backgroundColor : 'gold'}}>detail</NavLink>
+          <NavLink to="/mint" style = {{backgroundColor : 'gold'}}>mint</NavLink>
+          <NavLink to="*" style = {{backgroundColor : 'gold'}}>emptyPage</NavLink>
+      </Side>
   );
 };
 
