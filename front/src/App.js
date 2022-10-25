@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-
-
 import Main from "./pages/Main";
-import Search from "./pages/Search";
 import Detail from "./pages/Detail";
-
 import Mint from "./pages/Mint";
 import Empty from "./pages/Empty";
 
@@ -27,7 +24,29 @@ function App() {
 
   const [ walletAccount, setAccount] = useState(''); //현재지갑
   const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
-  const [ selectedNft, setSelectedNft ]=useState(0);//detail에 필요한 선택된 nft저장{tokenId: inputData ,tokenURI:result.data}
+  const [loading, setloading] = useState(true);
+
+  useEffect(()=> {
+    callImage();
+  },[]);
+
+  const callImage = () => {
+    const options = {
+      method: 'GET',
+      url: 'https://testnets-api.opensea.io/api/v1/assets?order_by=sale_count&order_direction=desc&offset=0&limit=20&include_orders=false'
+    }
+    setloading(true);
+    axios.request(options)
+      .then((res) => {
+        searchNft(res.data.assets);
+        setloading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        alert("서버와 연결이 원활하지 않습니다.");
+      });
+      
+  }
 
   /**연결된 지갑 주소를 walletAccount state에 적용 */
   const connectWallet = (account) => {
@@ -39,13 +58,6 @@ function App() {
     setNftGroup(Nfts);
   }
 
-  /**선택된 단일 nft를 selectedNft state에 적용 */
-  const selectNft =(Nft)=>{
-    setSelectedNft(Nft);
-  }
-
-  const navigate = useNavigate();
-
   return (
     <div>
       {/*로고 등*/}
@@ -53,36 +65,28 @@ function App() {
         connectWallet={connectWallet}
         walletAccount={walletAccount} 
         searchNft={searchNft}
-        selectNft={selectNft}//더미
       />
     
       {/*
-      /  : Main page
-      /search : NFT조회 페이지 컴포넌트
-      /detail :  nft 상세페이지
-      /mypage : 마이페이지 컴포넌트
-      /mint : 민트 페이지 컴포넌트
-      /trade : 거래 페이지 컴포넌트
-      * : emptyPage 컴포넌트*/}
+          main   page /                 (search)
+          detail page /detail/:tokenIdx (transfer)
+          mint   page /mint             (mint)
+          empty  page /*                (error handling)
+      */}
+      
       <Center>
-        <Sidebar />{/*차트 넣기*/}
+        {/* Coingecko 차트*/}
+        <Sidebar />
         <Routes>
           <Route path="/" element={
             <Main 
               searchNft={searchNft}
               nftGroup={nftGroup}
-              selectNft={selectNft}
-            />} 
-          />
-          <Route path="/search" element={
-            <Search
-               nftGroup={nftGroup} 
-               electNft={selectNft} 
+              loading={loading}
             />} 
           />
           <Route path="/detail/:tokenIdx" element={
             <Detail 
-              selectedNft={selectedNft} 
               walletAccount={walletAccount} 
               nftGroup={nftGroup}
             />} 
@@ -94,7 +98,7 @@ function App() {
           />
           <Route path="*" element={<Empty />} />
         </Routes>
-      {/* 깃헙 페이지 홈정보 */}
+      {/* OpenSee 깃헙 페이지 홈정보 */}
       <Footer searchNft={searchNft} />
       </Center>
     </div>

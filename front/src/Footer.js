@@ -13,7 +13,7 @@ export default function Footer ({ searchNft }) {
   const [ teamThirdNft, searchTeamThirdNft ] = useState([{ image_url:" image_url", name: "name" }]);
   const [ loading, setloading ] = useState(true);
 
-  const teamTokenId = 4; //3조 nft tokenId를 넣습니다.
+  const teamTokenId = 14; //3조 nft tokenId를 넣습니다.
  
   useEffect(()=> {
     callTeamNft(teamTokenId);
@@ -45,7 +45,7 @@ export default function Footer ({ searchNft }) {
           ? <>
              <Link 
                onClick={() => {
-                 console.log(teamThirdNft)
+                window.open("https://github.com/codestates-beb/BEB-06-FIRST-03") //token을 불러오지 못할때는 링크로 연결
                }}
              >
                 Codestates BEB_6 Project_1 OpenSee
@@ -53,9 +53,10 @@ export default function Footer ({ searchNft }) {
             </>
           :  <Card
               style={{ width: '18rem' }}       
-              onClick={() => { 
-                console.log(teamThirdNft[0].image_url)
-              }}         
+              onClick={() => {
+                searchNft(teamThirdNft);
+                navigate('/detail/0');
+              }}        
             >
               <Card.Img
                 variant="top" 
@@ -63,16 +64,13 @@ export default function Footer ({ searchNft }) {
                   ((teamThirdNft[0].image_url === "image_url") || !teamThirdNft[0].image_url)
                   ? altImg 
                   : teamThirdNft[0].image_url } 
-                onClick={() => {
-                  searchNft(teamThirdNft);
-                  navigate('/detail/0');
-                }}
               />
               <Card.Body>
                 <Card.Title>{
                   ((teamThirdNft[0].name === "name") || !teamThirdNft[0].name)
                   ? "Go to OpenSee GitHUB" 
-                  : teamThirdNft[0].name}</Card.Title>
+                  : teamThirdNft[0].name}
+                </Card.Title>
               </Card.Body>
             </Card>
         }
