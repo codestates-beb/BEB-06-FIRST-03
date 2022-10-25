@@ -40,7 +40,7 @@ export default function Main ({ nftGroup, searchNft, selectNft }) {
   }
 
   return (
-    <Container>
+    
       <Row>
         {loading
           ? <>
@@ -69,6 +69,6 @@ export default function Main ({ nftGroup, searchNft, selectNft }) {
           )
         }
       </Row>
-    </Container>
+    
   );
 }
