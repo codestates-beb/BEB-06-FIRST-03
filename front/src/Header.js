@@ -81,11 +81,12 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
+            style={{ maxHeight: '100px',width:'100%',
+            }}
             navbarScroll
           >
             
-            <Form className="d-flex search-size" >
+            <Form className="search-size" >
               <Col xs={2}>
               <Form.Select 
                 value={searchFilter}

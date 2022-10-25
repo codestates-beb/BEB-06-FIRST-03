@@ -12,6 +12,7 @@
   
 }
 .search-size{
-  width: 900px;
+  width: 100%;
+  display:flex!important;
   
 }

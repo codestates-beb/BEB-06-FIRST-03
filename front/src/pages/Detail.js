@@ -101,34 +101,45 @@ export default function Detail ({ walletAccount, nftGroup }) {
     <div className='container'>
       <img src={nftGroup[tokenIdx].image_url ? nftGroup[tokenIdx].image_url : altImg} className='img'></img>
       <div className='description'> 
-        <div className='name'>
-          Name: {nftGroup[tokenIdx].name ? nftGroup[tokenIdx].name: "no_name"}
+        <div className='name'>Name</div>
+        <div className='nameBox'>
+          {nftGroup[tokenIdx].name ? nftGroup[tokenIdx].name: "no_name"}
         </div>
-        <div className='contract_name'>
-          Contract Name: {nftGroup[tokenIdx].asset_contract.name ? nftGroup[tokenIdx].asset_contract.name : "no_name"}
+        <div className='name'>Contract Name</div>
+        <div className='nameBox'>
+           {nftGroup[tokenIdx].asset_contract.name ? nftGroup[tokenIdx].asset_contract.name : "no_name"}
         </div>
+        <div className='name'>TokenID</div>
+        
         <Link className='tokenId' onClick={()=>checkTokenURI()}>
-          TokenID: {nftGroup[tokenIdx].token_id}
+        <p>{nftGroup[tokenIdx].token_id}</p>
         </Link>
-        <div className='address'>
-          Address: {ownerAddress}
+        
+        <div className='name'>Address</div>
+        <div className='tokenId'>
+          {ownerAddress}
         </div>
+        <div className='name'>Description</div>
+        <div className='details' >
+          <p> {nftGroup[tokenIdx].description ? nftGroup[tokenIdx].description: "no_description"}</p>
+          
+        </div>
+        <div className='name'>Traits</div>
         <div className='details'>
-          <p>Description: {nftGroup[tokenIdx].description ? nftGroup[tokenIdx].description: "no_description"}</p>
           {trait.map((attribute, idx) =>
             <div key={idx}>
-              <div className='trait_typekey' >{attribute. trait_type}</div>
-              <div className='value'>{attribute.value}</div>
+              {attribute. trait_type} : {attribute.value}
             </div>
           )}
         </div>
-      <div>
+      </div>
+        
         <input //전송받는 사람 address 
-          placeholder="0x00"
+          placeholder="To:0x00"
+          className='tradeBox'
           onChange={(e)=>setInputData(e.target.value)}>
         </input>
-      </div>
-      </div>
+        
         <button className='tradeBox' onClick={handleShow}>Trade</button>
      
       <Offcanvas show={show} onHide={handleClose} placement='bottom'>
