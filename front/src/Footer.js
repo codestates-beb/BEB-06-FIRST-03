@@ -53,19 +53,25 @@ export default function Footer ({ searchNft }) {
           :  <Card
               style={{ width: '18rem' }}       
               onClick={() => { 
-                console.log(teamThirdNft.image_url)
+                console.log(teamThirdNft[0].image_url)
               }}         
             >
               <Card.Img
                 variant="top" 
-                src={teamThirdNft[0].image_url ? teamThirdNft[0].image_url : altImg} 
+                src={
+                  ((teamThirdNft[0].image_url === "image_url") || !teamThirdNft[0].image_url)
+                  ? altImg 
+                  : teamThirdNft[0].image_url } 
                 onClick={() => {
                   searchNft(teamThirdNft);
-                  navigate('/details/0');
+                  navigate('/detail/0');
                 }}
               />
               <Card.Body>
-                <Card.Title>{teamThirdNft[0].name ? teamThirdNft[0].name : "Go to OpenSee GitHUB"}</Card.Title>
+                <Card.Title>{
+                  ((teamThirdNft[0].name === "name") || !teamThirdNft[0].name)
+                  ? "Go to OpenSee GitHUB" 
+                  : teamThirdNft[0].name}</Card.Title>
               </Card.Body>
             </Card>
         }
