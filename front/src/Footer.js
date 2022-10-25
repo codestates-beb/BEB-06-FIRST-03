@@ -13,7 +13,7 @@ export default function Footer ({ searchNft }) {
   const [ teamThirdNft, searchTeamThirdNft ] = useState([{ image_url:" image_url", name: "name" }]);
   const [ loading, setloading ] = useState(true);
 
-  const teamTokenId = 4; //3조 nft tokenId를 넣습니다.
+  const teamTokenId = 14; //3조 nft tokenId를 넣습니다.
  
   useEffect(()=> {
     callTeamNft(teamTokenId);
