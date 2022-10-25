@@ -15,7 +15,7 @@ export default function Footer ({ searchNft }) {
 
   const teamTokenId = 14; //3조 nft tokenId를 넣습니다.
  
-  useEffect(()=> {
+  useEffect(() => {
     callTeamNft(teamTokenId);
     setloading(false);
   },[]);
@@ -40,44 +40,44 @@ export default function Footer ({ searchNft }) {
   return (
     <footer>
       <div className='footer_'>
-    <Container>
-      <Row>
-        {loading
-          ? <>
-             <Link 
-               onClick={() => {
-                window.open("https://github.com/codestates-beb/BEB-06-FIRST-03") //token을 불러오지 못할때는 링크로 연결
-               }}
-             >
-                Codestates BEB_6 Project_1 OpenSee
-              </Link>
-            </>
-          :  <Card
-              style={{ width: '18rem' }}       
-              onClick={() => {
-                searchNft(teamThirdNft);
-                navigate('/detail/0');
-              }}        
-            >
-              <Card.Img
-                variant="top" 
-                src={
-                  ((teamThirdNft[0].image_url === "image_url") || !teamThirdNft[0].image_url)
-                  ? altImg 
-                  : teamThirdNft[0].image_url } 
-              />
-              <Card.Body>
-                <Card.Title>{
-                  ((teamThirdNft[0].name === "name") || !teamThirdNft[0].name)
-                  ? "Go to OpenSee GitHUB" 
-                  : teamThirdNft[0].name}
-                </Card.Title>
-              </Card.Body>
-            </Card>
-        }
-      </Row>
-    </Container>
-    </div>
+        <Container>
+          <Row>
+            {loading
+              ? <>
+                 <Link 
+                   onClick={() => {
+                    window.open("https://github.com/codestates-beb/BEB-06-FIRST-03") //token을 불러오지 못할때는 링크로 연결
+                   }}
+                 >
+                    Codestates BEB_6 Project_1 OpenSee
+                  </Link>
+                </>
+              :  <Card
+                  style={{ width: '18rem' }}       
+                  onClick={() => {
+                    searchNft(teamThirdNft);
+                    navigate('/detail/0');
+                  }}        
+                >
+                  <Card.Img
+                    variant="top" 
+                    src={
+                      ((teamThirdNft[0].image_url === "image_url") || !teamThirdNft[0].image_url)
+                      ? altImg 
+                      : teamThirdNft[0].image_url } 
+                  />
+                  <Card.Body>
+                    <Card.Title>{
+                      ((teamThirdNft[0].name === "name") || !teamThirdNft[0].name)
+                      ? "Go to OpenSee GitHUB" 
+                      : teamThirdNft[0].name}
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
+            }
+          </Row>
+        </Container>
+      </div>
     </footer>
   )
 

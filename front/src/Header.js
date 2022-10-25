@@ -4,18 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Web3 from 'web3';
 
 // TODO - 해더에 로고를 넣고 mint,mypage,지갑 버튼을 넣습니다.
-import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Carousel from 'react-bootstrap/Carousel';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './Header.css';
-
-
 
 const Header = ({ walletAccount, connectWallet, searchNft }) => {
   
@@ -27,13 +22,13 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
   
   /**최초 랜더링시 지갑과 연결합니다.*/
   useEffect(() => {
-    if (typeof Window.ethereum !== "undefind") {
+    if (Window.ethereum !== "undefind") {
       try {
         const web = new Web3(window.ethereum);
         setWeb3(web);
-        if(!(window.ethereum && window.ethereum.isMetaMask)) {
+        if (!(window.ethereum && window.ethereum.isMetaMask)) {
           alert("메타마스크가 설치되어있지않습니다");
-          if(window.confirm("메타마스크를 설치하시겠습니까?")){
+          if (window.confirm("메타마스크를 설치하시겠습니까?")) {
             window.open("https://metamask.io/");
           }    
         }
@@ -44,13 +39,13 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
   }, []);
 
   const opentWallet = async () => {
-    try{
+    try {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       connectWallet(accounts[0]);
       setInputdata(accounts[0]);
-    }catch(e) {
+    } catch(e) {
       console.error(e);
       alert("메타마스크에 연결되있지 않습니다.");
     }
@@ -64,7 +59,7 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
     axios.request(options)
       .then((res) => {
         searchNft(res.data.assets);
-        navigate("/")
+        navigate("/");
       })
       .catch((e) => {
         console.error(e);
@@ -74,68 +69,63 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
 
   return (
     <div className='bg-grad'>
-    <Navbar  expand="lg" >
-      <Container fluid>
-        <Navbar.Brand href="/">OpenSee</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px',width:'100%',
-            }}
-            navbarScroll
-          >
-            
-            <Form className="search-size" >
-              <Col xs={2}>
-              <Form.Select 
-                value={searchFilter}
-                onChange={(e)=> setSearchFilter(e.target.value)}
-              >
-              
-                <option value="owner">Address</option>
-                <option value="asset_contract_address">Contract</option>
-              </Form.Select>
-              </Col>
-            <Form.Control
-            type="search"
-            placeholder="0x00"
-            value={inputData}
-            className="me-2"
-            aria-label="Search"
-            onChange={(e)=>{setInputdata(e.target.value)}} 
-            
-            />
-            <Button 
-              variant="outline-success"
-              onClick={() => getNft()}>
-              Search
-            </Button>
-            </Form>
-          </Nav>
-          <Nav className="" activeKey="/home">
-              <Nav.Item>
-                <Nav.Link onClick={() => navigate("/mint")}>Mint</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-              <Nav.Link 
-                // onClick={() => navigate("/mypage")}
-                >Mypage</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link 
-                  eventKey="link-2" 
-                  onClick={() => {opentWallet()}}>
-                  Wallet
-                </Nav.Link>
-              </Nav.Item>
+      <Navbar  expand="lg" >
+        <Container fluid>
+          <Navbar.Brand href="/">OpenSee</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: '100px',width:'100%',
+              }}
+              navbarScroll
+            >
+              <Form className="search-size" >
+                <Col xs={2}>
+                <Form.Select 
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                >       
+                  <option value="owner">Address</option>
+                  <option value="asset_contract_address">Contract</option>
+                </Form.Select>
+                </Col>
+              <Form.Control
+              type="search"
+              placeholder="0x00"
+              value={inputData}
+              className="me-2"
+              aria-label="Search"
+              onChange={(e) => {setInputdata(e.target.value)}} 
+              />
+              <Button 
+                variant="outline-success"
+                onClick={() => getNft()}>
+                Search
+              </Button>
+              </Form>
             </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar> 
-
-    <h1 className='h1-center'>Explore, collect, and sell NFTs</h1>
-
+            <Nav className="" activeKey="/home">
+                <Nav.Item>
+                  <Nav.Link onClick={() => navigate("/mint")}>Mint</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                <Nav.Link 
+                  // onClick={() => navigate("/mypage")}
+                  >Mypage</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link 
+                    eventKey="link-2" 
+                    onClick={() => {opentWallet()}}>
+                    Wallet
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar> 
+      <h1 className='h1-center'>Explore, collect, and sell NFTs</h1>
     </div>
   );
 };

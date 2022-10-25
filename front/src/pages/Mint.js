@@ -1,6 +1,5 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
-//import { Link } from 'react-router-dom';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -18,7 +17,7 @@ const Mid = styled.form`
 `
 const ipfs = ipfsHttpClient('/ip4/127.0.0.1/tcp/5001');
 
-export default function Mint ({ nftGroup }) {
+export default function Mint () {
   const [imageUrl,setImageUrl]=useState("");
   const [nftName,setNftName]=useState("");
   const [description,setDescription]=useState("");
@@ -34,9 +33,9 @@ export default function Mint ({ nftGroup }) {
     setImageUrl(e.target.value); 
   }
   function inputNftName(e) {
-    if(e.target.value!==""){
+    if (e.target.value !== "") {
       setMintDisabled(false);
-    }else{
+    } else {
       setMintDisabled(true);
     }
     setNftName(e.target.value); 
@@ -60,7 +59,7 @@ export default function Mint ({ nftGroup }) {
   }
   /** ipfs에 tokenId의 내용을 추가함*/
   async function addIpfs() {
-    try{
+    try {
       const data={
         "name":nftName,
         "description":description,
@@ -73,7 +72,7 @@ export default function Mint ({ nftGroup }) {
       setDisabled(true);
       setTokenUrl(`https://ipfs.io/ipfs/${added.path}?filename=${added.path}`);
       
-    }catch(err){
+    } catch (err) {
       console.log(err);
       setDisabled(false);
       setTokenUrl("ipfs업로드에 실패 했습니다. 직접 url을 입력해 주세요");
@@ -81,12 +80,9 @@ export default function Mint ({ nftGroup }) {
   }
   async function minting(e){
     
-    
     e.preventDefault(); //새로고침 안되게
 
-    let tokenId="https://ipfs.io/ipfs/"+addIpfs();
-
-    String.prototype.hexEncode = function(){
+    String.prototype.hexEncode = function() {
       var hex, i;   
       var encode = "";
       for (i=0; i<this.length; i++) {
@@ -96,11 +92,11 @@ export default function Mint ({ nftGroup }) {
       return encode;
     }
 
-    Number.prototype.addZero = function(){  
+    Number.prototype.addZero = function() {
       var length = this;
       var zeroCount = 0;
       var addZeroData = ""
-      while (length%64 != 0) { //64개씩 떨어지게 할때 필요한 "0"
+      while (length%64 !== 0) { //64개씩 떨어지게 할때 필요한 "0"
         length += 1;
         zeroCount++;
         addZeroData += "0"
@@ -123,7 +119,7 @@ export default function Mint ({ nftGroup }) {
     const zero = "0000000000000000000000000000000000000000000000000000000000000000"; 
     const inputfrom = (zero + from).slice(-64); 
     let hexLength = tokenURI.hexEncode().length;
-    const dataLength = (zero+((hexLength)/2).toString(16)).slice(-64);
+    const dataLength = (zero +((hexLength)/2).toString(16)).slice(-64);
     
     //mint 트랜젝션 생성
     window.ethereum
@@ -157,7 +153,6 @@ export default function Mint ({ nftGroup }) {
       "trait_type":"",
       "value":""			  // 내용은 빈칸으로 만들자
     };
-
     setCategory([...categorys, input]); // 기존 값에 새로운 인풋객체를 추가해준다.
   }
 
@@ -231,7 +226,7 @@ export default function Mint ({ nftGroup }) {
       </Form.Group>
       <Form.Group as={Row} className="mb-3">
         <Col sm={{ span: 10, offset: 2 }}>
-          <Button type="submit" onClick={(e)=>minting(e)} disabled={mintDisabled} >Mint</Button>
+          <Button type="submit" onClick={(e) => minting(e)} disabled={mintDisabled} >Mint</Button>
         </Col>
       </Form.Group>
     </Form>

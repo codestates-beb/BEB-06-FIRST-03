@@ -26,11 +26,7 @@ function App() {
   const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
   const [loading, setloading] = useState(true);
 
-  useEffect(()=> {
-    callImage();
-  },[]);
-
-  const callImage = () => {
+  useEffect(() => {
     const options = {
       method: 'GET',
       url: 'https://testnets-api.opensea.io/api/v1/assets?order_by=sale_count&order_direction=desc&offset=0&limit=20&include_orders=false'
@@ -45,8 +41,7 @@ function App() {
         console.error(e);
         alert("서버와 연결이 원활하지 않습니다.");
       });
-      
-  }
+  },[]);
 
   /**연결된 지갑 주소를 walletAccount state에 적용 */
   const connectWallet = (account) => {
@@ -91,17 +86,15 @@ function App() {
               nftGroup={nftGroup}
             />} 
           />
-          <Route path="/mint" element={
-            <Mint 
-              nftGroup={nftGroup}
-            />} 
+          <Route path="/mint" element={<Mint />} 
           />
           <Route path="*" element={<Empty />} />
         </Routes>
-      {/* OpenSee 깃헙 페이지 홈정보 */}
+      
       </Center>
       <div>
-      <Footer searchNft={searchNft} />
+        {/* OpenSee 깃헙 페이지 홈정보 */}
+        <Footer searchNft={searchNft} />
       </div>
     </div>
   );

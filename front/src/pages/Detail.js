@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from "axios";
-
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import './Detail.css';
-
 import altImg from "../files/alt_img.png"
+import './Detail.css';
 
 // TODO - 상세보기 페이지를 작성합니다.
 export default function Detail ({ walletAccount, nftGroup }) {
@@ -26,10 +24,6 @@ export default function Detail ({ walletAccount, nftGroup }) {
   const handleShow = () => setShow(true);
 
   useEffect(()=> { //tokenId로 owner조회
-    callOwner();
-  },[]);
-
-  const callOwner = () => {
     const options = {
       method: 'GET',
       url: `http://localhost:8001/owner?tokenId=${tokenId} `
@@ -42,7 +36,7 @@ export default function Detail ({ walletAccount, nftGroup }) {
         console.error(e);
         alert("OpenSee서버와 연결이 원활하지 않습니다.");
       });
-  }
+  },[]);
 
   const trait = nftGroup[tokenIdx].traits;
 
@@ -111,7 +105,7 @@ export default function Detail ({ walletAccount, nftGroup }) {
         </div>
         <div className='name'>TokenID</div>
         
-        <Link className='tokenId' onClick={()=>checkTokenURI()}>
+        <Link className='tokenId' onClick={() => checkTokenURI()}>
         <p>{nftGroup[tokenIdx].token_id}</p>
         </Link>
         
@@ -137,7 +131,7 @@ export default function Detail ({ walletAccount, nftGroup }) {
         <input //전송받는 사람 address 
           placeholder="To:0x00"
           className='tradeBox'
-          onChange={(e)=>setInputData(e.target.value)}>
+          onChange={(e) => setInputData(e.target.value)}>
         </input>
         
         <button className='tradeBox' onClick={handleShow}>Trade</button>

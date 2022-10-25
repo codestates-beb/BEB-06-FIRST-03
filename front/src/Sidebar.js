@@ -1,8 +1,7 @@
 import React from 'react';
-// TODO - 코인 시세를 넣습니다. (임시적으로 모든 페이지 접근 버튼을 작성하였습니다.)
-import { Link ,NavLink} from 'react-router-dom';
 import styled from "styled-components";
 import "./App.css";
+
 const Side = styled.div`
   display: flex;
   border-right: 1px solid #e0e0e0;
