@@ -11,7 +11,6 @@ import loadingImg from "../files/loading_img.png"
 
 // TODO - 메인 페이지를 작성합니다.
 export default function Main ({ nftGroup, loading }) {
-  console.log(loading)
 
   const navigate = useNavigate();
 

@@ -11,11 +11,11 @@ router.get('/', async (req, res, next) => {
   Contract.setProvider(url);
   const constract = new Contract(abi, process.env.SMARTCONTRACT_ADDRESS); 
   const tokenId = req.query.tokenId;
-
   if(tokenId){
     try{
       const owner = await constract.methods.ownerOf(tokenId).call();  
-      return res.status(200).send(owner);
+      console.log(`token: ${tokenId}, owner ${owner.toLowerCase()}`)
+      return res.status(200).send({ ownerAddress: owner.toLowerCase() });
     } catch (err) { 
         console.log("잘못된 tokenId입니다.");
         return res.status(400).send({ message: "invalid tokenId"});

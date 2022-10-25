@@ -14,12 +14,12 @@ export default function Detail ({ walletAccount, nftGroup }) {
   const navigate = useNavigate();
   const [ show, setShow ] = useState(false);
   const [ ownerAddress, setOwnerAddress ] = useState("Not minted by OpenSee") //OpenSee Server에서 owner를 조회
-  const tokenId = nftGroup[tokenIdx].token_id
+  const tokenId = Number(nftGroup[tokenIdx].token_id);
   const [ inputData, setInputData ] = useState(""); //transfer address 입력
 
-  console.log("nftData", nftGroup)
+  console.log("nftData", nftGroup);
 
-  if( !tokenIdx || nftGroup.length<tokenIdx ) {
+  if( !tokenIdx || nftGroup.length < tokenIdx ) {
     navigate("/")}
   
   const handleClose = () => setShow(false);
@@ -49,46 +49,46 @@ export default function Detail ({ walletAccount, nftGroup }) {
   async function trading() {
     //메타마스크에 연결하여 transaction를 생성합니다.
     //accout조회 
-    
-    if (!window.ethereum) alert("메타마스크에 연결되있지 않습니다.");
-    const accounts = await window.ethereum.request({ 
-      method: 'eth_requestAccounts',
-    });
-
-
-    if(ownerAddress.split('0x').length===2 && nftGroup[tokenIdx].creator.address === accounts[0]) { //OpenSee NFT인지, 소유자인지 확인
-      const zero = "0000000000000000000000000000000000000000000000000000000000000000"; 
-
-      //inputData는 64자리
-      const from = (zero + accounts[0].split('0x')[1]).slice(-64); 
-      const to = (zero + inputData.split('0x')[1]).slice(-64); 
-      console.log(to)
-      const contractAdress = "0x95b65C0456F9D3Db3d471b70d2b57E400832588B"; //contract address
-      const inputTokenID = (zero + tokenId.toString()).slice(-64); //.toString()으로 문자열로 변환 tokenId는 총 64자리, tokenid 자리수만큼 앞에서 0을 잘라냄
-
-      window.ethereum
-      .request({
-        method: 'eth_sendTransaction',
-        params: [
-          {
-            from: accounts[0], // 지갑주인만 transfer가능함.
-            to: contractAdress, /*보낼사람주소*/
-            data: "0x42842e0e"+ //transfer methodId 해당문자열은 변경금지!
-              from+
-              to+
-              inputTokenID,
-          },
-        ],
-      })
-      .then((txHash) => {
-        console.log(txHash); //생성된 트랜젝션 해쉬값
-        setShow(false); //성공시 창을 닫는다.
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("트랜젝션 생성이 실패되었습니다.");
+    if (inputData) {
+      if (!window.ethereum) alert("메타마스크에 연결되있지 않습니다.");
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts',
       });
-    } else alert("NFT 소유자가 아닙니다.");
+    
+      if (ownerAddress === accounts[0]) { //OpenSee NFT인지, 소유자인지 확인
+        const zero = "0000000000000000000000000000000000000000000000000000000000000000"; 
+
+        //inputData는 64자리
+        const from = (zero + accounts[0].split('0x')[1]).slice(-64); 
+        const to = (zero + inputData.split('0x')[1]).slice(-64); 
+
+        const contractAdress = "0x95b65C0456F9D3Db3d471b70d2b57E400832588B"; //contract address
+        const inputTokenID = (zero + tokenId.toString(16)).slice(-64); //16진수변환 tokenId는 총 64자리, tokenid 자리수만큼 앞에서 0을 잘라냄
+
+        window.ethereum
+        .request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: accounts[0], // 지갑주인만 transfer가능함.
+              to: contractAdress, /*보낼사람주소*/
+              data: "0x42842e0e"+ //transfer methodId 해당문자열은 변경금지!
+                from+
+                to+
+                inputTokenID,
+            },
+          ],
+        })
+        .then((txHash) => {
+          console.log(txHash); //생성된 트랜젝션 해쉬값
+          setShow(false); //성공시 창을 닫는다.
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("트랜젝션 생성이 실패되었습니다.");
+        });
+      } else alert("NFT 소유자만 Transfer 가능합니다.");
+    } else alert("Transfer할 address를 입력해주세요");
   }
 
   const checkTokenURI = () =>{
