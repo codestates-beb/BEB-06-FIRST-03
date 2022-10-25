@@ -100,7 +100,9 @@ function App() {
         </Routes>
       {/* OpenSee 깃헙 페이지 홈정보 */}
       </Center>
+      <div>
       <Footer searchNft={searchNft} />
+      </div>
     </div>
   );
 }
