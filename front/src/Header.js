@@ -4,14 +4,18 @@ import { useNavigate } from "react-router-dom";
 import Web3 from 'web3';
 
 // TODO - 해더에 로고를 넣고 mint,mypage,지갑 버튼을 넣습니다.
-
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import Carousel from 'react-bootstrap/Carousel';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-
+import './Header.css';
 //import NavDropdown from 'react-bootstrap/NavDropdown';
+
+
 
 const Header = ({ walletAccount, connectWallet, searchNft }) => {
   
@@ -68,7 +72,8 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <div className='bg-grad'>
+    <Navbar  expand="lg" >
       <Container fluid>
         <Navbar.Brand href="/">OpenSee</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -117,8 +122,13 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
               </Nav.Item>
             </Nav>
         </Navbar.Collapse>
+        
       </Container>
-    </Navbar>
+    </Navbar> 
+
+    <h1 className='h1-center'>Explore, collect, and sell NFTs</h1>
+
+    </div>
   );
 };
 
