@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import axios from "axios";
 
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -9,17 +10,39 @@ import altImg from "../files/alt_img.png"
 
 // TODO - 상세보기 페이지를 작성합니다.
 export default function Detail ({ walletAccount, nftGroup }) {
-  const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [ inputData, setInputData ] = useState("");
   const { tokenIdx } = useParams();
+  const navigate = useNavigate();
+  const [ show, setShow ] = useState(false);
+  const [ ownerAddress, setOwnerAddress ] = useState("Not minted by OpenSee") //OpenSee Server에서 owner를 조회
+  const tokenId = nftGroup[tokenIdx].token_id
+  const [ inputData, setInputData ] = useState(""); //transfer address 입력
+
+  console.log("nftData", nftGroup)
+
   if( !tokenIdx || nftGroup.length<tokenIdx ) {
     navigate("/")}
   
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  console.log(nftGroup)
+  useEffect(()=> { //tokenId로 owner조회
+    callOwner();
+  },[]);
+
+  const callOwner = () => {
+    const options = {
+      method: 'GET',
+      url: `http://localhost:8001/owner?tokenId=${tokenId} `
+    }
+    axios.request(options)
+      .then((res) => {
+        setOwnerAddress(res.data.ownerAddress);
+      })
+      .catch((e) => {
+        console.error(e);
+        alert("OpenSee서버와 연결이 원활하지 않습니다.");
+      });
+  }
 
   const trait = nftGroup[tokenIdx].traits;
 
@@ -32,7 +55,8 @@ export default function Detail ({ walletAccount, nftGroup }) {
       method: 'eth_requestAccounts',
     });
 
-    if(nftGroup[tokenIdx].creator.address === accounts[0]) { //소유자인지 확인
+
+    if(ownerAddress.split('0x').length===2 && nftGroup[tokenIdx].creator.address === accounts[0]) { //OpenSee NFT인지, 소유자인지 확인
       const zero = "0000000000000000000000000000000000000000000000000000000000000000"; 
 
       //inputData는 64자리
@@ -40,8 +64,7 @@ export default function Detail ({ walletAccount, nftGroup }) {
       const to = (zero + inputData.split('0x')[1]).slice(-64); 
       console.log(to)
       const contractAdress = "0x95b65C0456F9D3Db3d471b70d2b57E400832588B"; //contract address
-      const tokenId = nftGroup[tokenIdx].token_id.toString(); // .toString()으로 문자열로 변환 tokenId는 총 64자리
-      const inputTokenID = (zero + tokenId).slice(-64); //tokenid 자리수만큼 앞에서 0을 잘라냄
+      const inputTokenID = (zero + tokenId.toString()).slice(-64); //.toString()으로 문자열로 변환 tokenId는 총 64자리, tokenid 자리수만큼 앞에서 0을 잘라냄
 
       window.ethereum
       .request({
@@ -88,7 +111,7 @@ export default function Detail ({ walletAccount, nftGroup }) {
           TokenID: {nftGroup[tokenIdx].token_id}
         </Link>
         <div className='address'>
-          Address: {nftGroup[tokenIdx].creator.address}
+          Address: {ownerAddress}
         </div>
         <div className='details'>
           <p>Description: {nftGroup[tokenIdx].description ? nftGroup[tokenIdx].description: "no_description"}</p>
