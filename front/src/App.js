@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-//import Footer from "./Footer";
-
+import Footer from "./Footer";
 import Main from "./pages/Main";
-import Search from "./pages/Search";
 import Detail from "./pages/Detail";
-import Mypage from "./pages/Mypage";
 import Mint from "./pages/Mint";
-import Trade from "./pages/Trade";
 import Empty from "./pages/Empty";
 
-//import axios from "axios";
-import { initialState } from './dummy/dummy';
 import styled from "styled-components";
 import './App.css';
+
 const Center = styled.div`
   height: 92vh;
   display: flex;
@@ -25,36 +21,81 @@ const Center = styled.div`
 `
 
 function App() {
-  const [items, setItems] = useState(initialState.items);
-  const navigate = useNavigate();
+
+  const [ walletAccount, setAccount] = useState(''); //현재지갑
+  const [ nftGroup, setNftGroup] = useState([]); //가져온 데이터 [{tokenId:1, tokenURI:{ name, image....}}]
+  const [loading, setloading] = useState(true);
+
+  useEffect(() => {
+    const options = {
+      method: 'GET',
+      url: 'https://testnets-api.opensea.io/api/v1/assets?order_by=sale_count&order_direction=desc&offset=0&limit=20&include_orders=false'
+    }
+    setloading(true);
+    axios.request(options)
+      .then((res) => {
+        searchNft(res.data.assets);
+        setloading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        alert("서버와 연결이 원활하지 않습니다.");
+      });
+  },[]);
+
+  /**연결된 지갑 주소를 walletAccount state에 적용 */
+  const connectWallet = (account) => {
+    setAccount(account);
+  }
+
+  /**검색 결과를 search state에 적용 */
+  const searchNft = (Nfts) => {
+    setNftGroup(Nfts);
+  }
 
   return (
     <div>
-      <Header />{/*로고 등*/}
-      
-      {/*
-      /  : Main page
-      /search : NFT조회 페이지 컴포넌트
-      /detail :  nft 상세페이지
-      /mypage : 마이페이지 컴포넌트
-      /mint : 민트 페이지 컴포넌트
-      /trade : 거래 페이지 컴포넌트
-      * : emptyPage 컴포넌트*/}
-      <Center>
-      <Sidebar />{/*차트 넣기*/}
-      <Routes>
-        <Route path="/" element={<Main  />} />
-        <Route path="/search" element={<Search items={items} />} />
-        <Route path="/detail" element={<Detail />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/mint" element={<Mint />} />
-        <Route path="/trade" element={<Trade />} />
-        <Route path="*" element={<Empty />} />
-      </Routes>
-      </Center>
-      {/*<Footer />깃헙 페이지 홈정보*/}
-
+      {/*로고 등*/}
+      <Header 
+        connectWallet={connectWallet}
+        walletAccount={walletAccount} 
+        searchNft={searchNft}
+      />
     
+      {/*
+          main   page /                 (search)
+          detail page /detail/:tokenIdx (transfer)
+          mint   page /mint             (mint)
+          empty  page /*                (error handling)
+      */}
+      
+      <Center>
+        {/* Coingecko 차트*/}
+        <Sidebar />
+        <Routes>
+          <Route path="/" element={
+            <Main 
+              searchNft={searchNft}
+              nftGroup={nftGroup}
+              loading={loading}
+            />} 
+          />
+          <Route path="/detail/:tokenIdx" element={
+            <Detail 
+              walletAccount={walletAccount} 
+              nftGroup={nftGroup}
+            />} 
+          />
+          <Route path="/mint" element={<Mint />} 
+          />
+          <Route path="*" element={<Empty />} />
+        </Routes>
+      
+      </Center>
+      <div>
+        {/* OpenSee 깃헙 페이지 홈정보 */}
+        <Footer searchNft={searchNft} />
+      </div>
     </div>
   );
 }
