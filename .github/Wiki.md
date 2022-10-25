@@ -3,10 +3,10 @@
 ### 👋introduce
 &nbsp;&nbsp;&nbsp; 코드스테이츠 BEB 6기 3조입니다!<br/>
 &nbsp;&nbsp; 지난 4개월여간 우리가 배워온 지식들과 실제 서비스중인 **OpenSea**를 분석하여<br/>
-&nbsp;&nbsp; NFT를 발행하고 서로주고 받을 수 있는 웹어플리케이션을 구현하고자 합니다.<br/>
-&nbsp;&nbsp; 스마트컨트랙트를 블록체인네트워크에 배포하고 <br/>
-&nbsp;&nbsp; web3라이브러리와 연동하여 서버를 구축하고 <br/>
-&nbsp;&nbsp; 우리가 만들어낸 서버로와 통신하는 웹페이지를 구현하는것은<br/>
+&nbsp;&nbsp; NFT를 발행하고 서로 주고 받을 수 있는 웹 어플리케이션을 구현하고자 합니다.<br/>
+&nbsp;&nbsp; 스마트 컨트랙트를 블록체인 네트워크에 배포하고 <br/>
+&nbsp;&nbsp; web3 라이브러리와 연동하여 서버를 구축하고 <br/>
+&nbsp;&nbsp; 우리가 만들어낸 서버로와 통신하는 웹 페이지를 구현하는 것은<br/>
 &nbsp;&nbsp; 팀원 모두에게 있어서 첫번째 도전입니다.<br/>
 &nbsp;&nbsp; 이번 프로젝트를 통해 블록체인을 다루는 개발자로서 한발을 내딛어<br/>
 &nbsp;&nbsp; 저희의 장래의 가능성을 열어볼(**OpenSee**) 것입니다.
@@ -47,10 +47,10 @@
 
 - Bare Minimum
   - Client
-    - 조회페이지
-    - NFT필터링 기능
-    - 거래페이지
-    - 민팅페이지
+    - 조회 페이지
+    - NFT 필터링 기능
+    - 거래 페이지
+    - 민팅 페이지
     - emptyPage
   - Server
     - Search 기능
@@ -58,14 +58,14 @@
     - Mint 기능
     - 올바르지 않은 경로로 접근시 err send
 - Recommended
-  - 클라이언트에 웹지갑(메타마스크)을 연결하여 address 받아오기
-  - 사용자(address)가 가지고 있는 모든 NFT정보(tokenId, tokenURI) 받아오기
-  - 클라이언트 서버 간 HTTPS통신
+  - 클라이언트에 웹 지갑(메타마스크)을 연결하여 address 받아오기
+  - 사용자(address)가 가지고 있는 모든 NFT 정보(tokenId, tokenURI) 받아오기
+  - 클라이언트 서버 간 HTTPS 통신
   - 팀원들의 깃허브 정보를 Footer에 정리
   - NFT Burn(삭제) 기능
 - Advanced
-  - 최신 NFT랭킹정보 받아오기
-  - 외부 NFT검색기능
+  - 최신 NFT 랭킹정보 받아오기
+  - 외부 NFT 검색기능
 
 ### 📞API Docs.
 |function|method|input|output
