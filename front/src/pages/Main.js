@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card';
 import altImg from "../files/alt_img.png"
 import loadingImg from "../files/loading_img.png"
 
+
 // TODO - 메인 페이지를 작성합니다.
 export default function Main ({ nftGroup, loading }) {
 

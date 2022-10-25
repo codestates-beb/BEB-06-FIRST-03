@@ -6,6 +6,7 @@ import Web3 from 'web3';
 // TODO - 해더에 로고를 넣고 mint,mypage,지갑 버튼을 넣습니다.
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Carousel from 'react-bootstrap/Carousel';
@@ -13,6 +14,8 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './Header.css';
+
+
 
 const Header = ({ walletAccount, connectWallet, searchNft }) => {
   
@@ -69,13 +72,6 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
       });
   }
 
-  function handleKeyPress(e) { 
-    e.preventDefault(); //새로고침 안되게
-    if (e.type === 'keypress' && e.code === 'Enter') {
-    getNft();
-    }
-  }
-
   return (
     <div className='bg-grad'>
     <Navbar  expand="lg" >
@@ -85,35 +81,38 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
+            style={{ maxHeight: '100px',width:'100%',
+            }}
             navbarScroll
           >
-            <Form className="d-flex">
+            
+            <Form className="search-size" >
+              <Col xs={2}>
               <Form.Select 
                 value={searchFilter}
                 onChange={(e)=> setSearchFilter(e.target.value)}
               >
+              
                 <option value="owner">Address</option>
                 <option value="asset_contract_address">Contract</option>
               </Form.Select>
+              </Col>
             <Form.Control
-              type="search"
-              placeholder="0x00"
-              value={inputData}
-              className="me-2"
-              aria-label="Search"
-              onChange={(e) => setInputdata(e.target.value)}
-              onKeyPress={handleKeyPress}
+            type="search"
+            placeholder="0x00"
+            value={inputData}
+            className="me-2"
+            aria-label="Search"
+            onChange={(e)=>{setInputdata(e.target.value)}} 
+            
             />
-          <Button 
-            variant="outline-success"
-            onClick={() => {
-              getNft();
-            }}>
-            Search
-           </Button>
-        </Form>
-        </Nav>
+            <Button 
+              variant="outline-success"
+              onClick={() => getNft()}>
+              Search
+            </Button>
+            </Form>
+          </Nav>
           <Nav className="" activeKey="/home">
               <Nav.Item>
                 <Nav.Link onClick={() => navigate("/mint")}>Mint</Nav.Link>
@@ -126,7 +125,7 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
               <Nav.Item>
                 <Nav.Link 
                   eventKey="link-2" 
-                  onClick={() => opentWallet()}>
+                  onClick={() => {opentWallet()}}>
                   Wallet
                 </Nav.Link>
               </Nav.Item>

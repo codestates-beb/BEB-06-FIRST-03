@@ -38,6 +38,7 @@ export default function Footer ({ searchNft }) {
     }
 
   return (
+    <footer>
     <Container>
       <Row>
         {loading
@@ -75,6 +76,7 @@ export default function Footer ({ searchNft }) {
         }
       </Row>
     </Container>
+    </footer>
   )
 
 }

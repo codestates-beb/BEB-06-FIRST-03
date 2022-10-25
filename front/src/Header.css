@@ -11,3 +11,8 @@
   height: 300px;
   
 }
+.search-size{
+  width: 100%;
+  display:flex!important;
+  
+}
