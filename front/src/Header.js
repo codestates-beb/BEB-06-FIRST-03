@@ -13,9 +13,6 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './Header.css';
-//import NavDropdown from 'react-bootstrap/NavDropdown';
-
-
 
 const Header = ({ walletAccount, connectWallet, searchNft }) => {
   
@@ -64,6 +61,7 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
     axios.request(options)
       .then((res) => {
         searchNft(res.data.assets);
+        navigate("/")
       })
       .catch((e) => {
         console.error(e);
@@ -121,7 +119,9 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
                 <Nav.Link onClick={() => navigate("/mint")}>Mint</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-              <Nav.Link onClick={() => navigate("/mypage")}>Mypage</Nav.Link>
+              <Nav.Link 
+                // onClick={() => navigate("/mypage")}
+                >Mypage</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link 
@@ -132,7 +132,6 @@ const Header = ({ walletAccount, connectWallet, searchNft }) => {
               </Nav.Item>
             </Nav>
         </Navbar.Collapse>
-        
       </Container>
     </Navbar> 
 

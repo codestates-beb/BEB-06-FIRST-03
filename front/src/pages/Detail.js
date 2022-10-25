@@ -8,7 +8,7 @@ import './Detail.css';
 import altImg from "../files/alt_img.png"
 
 // TODO - 상세보기 페이지를 작성합니다.
-export default function Detail ({ selectedNft, walletAccount, nftGroup }) {
+export default function Detail ({ walletAccount, nftGroup }) {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [ inputData, setInputData ] = useState("");
