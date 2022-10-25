@@ -99,8 +99,8 @@ function App() {
           <Route path="*" element={<Empty />} />
         </Routes>
       {/* OpenSee 깃헙 페이지 홈정보 */}
-      <Footer searchNft={searchNft} />
       </Center>
+      <Footer searchNft={searchNft} />
     </div>
   );
 }
