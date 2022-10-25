@@ -1,6 +1,6 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fcodestates-beb%2FBEB-06-FIRST-03&count_bg=%232372CC&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=VISIT&edge_flat=false)](https://github.com/codestates-beb/BEB-06-FIRST-03)</br>
 
-### 👋introduce
+### 👋&nbsp;introduce
 &nbsp;&nbsp;&nbsp; 코드스테이츠 BEB 6기 3조입니다!<br/>
 &nbsp;&nbsp; 지난 4개월여간 우리가 배워온 지식들과 실제 서비스중인 **OpenSea**를 분석하여<br/>
 &nbsp;&nbsp; NFT를 발행하고 서로 주고 받을 수 있는 웹 어플리케이션을 구현하고자 합니다.<br/>
@@ -14,17 +14,16 @@
 
 <br/>
 
-### 📝Roles
+### 📝&nbsp;Roles
 ||||
 |---|---|---|
 **이민욱** | 프론트엔드(팀장) | https://github.com/yiminwook 
 **조은석** |프론트엔드 |https://github.com/noncontact
-**양지영** |백엔드&스마트컨트랙트 | https://github.com/Risio1016
 **한은진** |백엔드&스마트컨트랙트 | https://github.com/eunjh3
 
 <br/>
 
-### 📒Rules
+### 📒&nbsp;Rules
 &nbsp;&nbsp; 회의는 오전 11시에 진행<br/>
 &nbsp;&nbsp; 커밋은 한글로 간결하게 작성하고, 기능구현시마다 작성<br/>
 &nbsp;&nbsp; 고민이 될때는 항상 팀원들과 상담!
@@ -32,60 +31,72 @@
 <br/>
 
 
-### ♻️Workflow
- [workFlowIMG](https://github.com/codestates-beb/BEB-06-FIRST-03)
- 
- <br/>
- 
-### 🛠Workframe
- [workFrameIMG](https://github.com/codestates-beb/BEB-06-FIRST-03)
-
+### ♻️&nbsp;Workflow
+<p align="center">
+  <img src='./workFlow.png' alt="workFlow_png" width="800" />
+</p>
+<br />
 <br/>
  
+### 🛠&nbsp;Workframe
+<p align="center">
+  <img src='./workFrame.png' alt="workFrame_png" width="800" />
+</p>
+<br />
+<br/>
 
-### 📌Achieve goals
+### ⚙️&nbsp;Configuration
+<p align="center">
+  <img src='./configuration.png' alt="configuration_png" width="800" />
+</p>
+<br />
+<br/>
+
+### 📌&nbsp;Achieve goals
 
 - Bare Minimum
   - Client
-    - 조회 페이지
+    - 조회 페이지(Search 기능)
     - NFT 필터링 기능
-    - 거래 페이지
-    - 민팅 페이지
+    - 거래 페이지(tranferFrom 기능)
+    - 민팅 페이지(Mint 기능)
     - emptyPage
   - Server
-    - Search 기능
-    - tranferFrom 기능
-    - Mint 기능
+    - 컨트랙트의 ownerOf() 실행
     - 올바르지 않은 경로로 접근시 err send
 - Recommended
   - 클라이언트에 웹 지갑(메타마스크)을 연결하여 address 받아오기
   - 사용자(address)가 가지고 있는 모든 NFT 정보(tokenId, tokenURI) 받아오기
-  - 클라이언트 서버 간 HTTPS 통신
   - 팀원들의 깃허브 정보를 Footer에 정리
-  - NFT Burn(삭제) 기능
 - Advanced
   - 최신 NFT 랭킹정보 받아오기
   - 외부 NFT 검색기능
+  - NFT Burn(삭제) 기능
+  - 클라이언트 서버 간 HTTPS 통신
 
-### 📞API Docs.
+<br/>
+<br/>
+
+
+### 📞&nbsp;Server API Docs.
 |function|method|input|output
 |---|---|---|---|
-Search(address) | GET | query(?address="") |data{tokenId, tokenURI}|
-Search(TokenId) | GET | query(?tokenId="") |data{tokenURI}|
-Transfer | POST |data:{to,from,tokenId}|{message:"OK"}|
-Mint | POST | data:{name, description, image, attributes}|{message:"OK", data{tokenId}}|
-Burn | DELETE | data:{address, tokenId}|{message:"OK"}|
+owner(TokenId) | GET | query(?tokenId="") |data{ ownerAddress }|
+Search(address) | GET | query(?address="") |data{ tokenId, tokenURI }|
+Search(TokenId) | GET | query(?tokenId="") |data{ tokenURI }|
 
 <br/>
  
 
 ---
-> ### 📦Version 
+> ### 📦&nbsp;Version 
 ---
 <pre >
 <img src="https://img.shields.io/badge/React ^18.2.0-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <br/>
 <img src="https://img.shields.io/badge/React_Router ^18.2.0-CA4245?style=for-the-badge&logo=React Router&logoColor=white"><br/>
 <img src="https://img.shields.io/badge/React_Router_dom ^6.4.0-CA4245?style=for-the-badge&logo=React Router&logoColor=white"><br/>
+<img src="https://img.shields.io/badge/ipfs_http_client 57.0.1-65C2CB?style=for-the-badge&logo=IPFS&logoColor=white"><br/>
+<img src="https://img.shields.io/badge/Bootstrap^5.2.2-7952B3?style=for-the-badge&logo=IPFS&logoColor=white"><br/>
 <img src="https://img.shields.io/badge/Express ^4.18.2-000000?style=for-the-badge&logo=Express&logoColor=white"><br/>
 <img src="https://img.shields.io/badge/axios ^1.1.3-5A29E4?style=for-the-badge&logo=axios&logoColor=white"><br/>
 <img src="https://img.shields.io/badge/Web3.js ^1.8.0-F16822?style=for-the-badge&logo=Web3.js&logoColor=white"><br/>
